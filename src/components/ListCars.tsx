@@ -98,7 +98,8 @@ export default function ListCars({ gridMode }: ListCarsProps) {
   return (
     <div className="flex flex-col gap-4">
       <p>{cars.length.toLocaleString("de-DE")} carros encontrados</p>
-      <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "flex flex-col space-y-4"}>
+      <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center" : "flex flex-col space-y-4"}>
+
         {currentCars.map((car) =>
           gridMode ? (
             <CarGridItem key={car.id} car={car} />

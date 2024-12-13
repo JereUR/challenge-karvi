@@ -19,7 +19,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md w-[300px]">
+    <Card className="md:overflow-hidden shadow-md w-full md:w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
           <div className="relative w-full h-48">
