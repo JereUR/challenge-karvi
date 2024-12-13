@@ -19,24 +19,38 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md w-full max-w-[300px] mx-auto">
+    <Card className="overflow-hidden shadow-md md:w-[300px] w-full mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative w-full aspect-[3/2]">
+          <div className="relative w-full h-48">
             {images.map((image, index) => (
               <div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
-                  }`}
-              >
-                <Image
-                  src={image}
-                  alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                  priority={index === 0}
-                />
+                key={index}>
+                <div
+                  className={`hidden md:block absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                  <Image
+                    src={image}
+                    alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                    width={300}
+                    height={200}
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </div>
+                <div
+                  className={`md:hidden absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                  <Image
+                    src={image}
+                    alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-lg"
+                    priority={index === 0}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -53,8 +67,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 key={index}
                 onClick={() => setCurrentImage(index)}
                 className={`h-2 rounded-full transition-all ${currentImage === index
-                    ? "w-4 bg-white"
-                    : "w-2 bg-white/50 hover:bg-white/70"
+                  ? "w-4 bg-white"
+                  : "w-2 bg-white/50 hover:bg-white/70"
                   }`}
                 aria-label={`View image ${index + 1}`}
               />
