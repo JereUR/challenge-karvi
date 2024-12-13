@@ -26,7 +26,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
             {images.map((image, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                className={`absolute inset-0 duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
                   }`}
               >
                 <Image
