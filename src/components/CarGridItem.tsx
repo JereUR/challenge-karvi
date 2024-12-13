@@ -73,7 +73,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
             <p className="font-medium text-2xl text-orange-400">
               R${car.price}
             </p>
-            <p className="font-medium text-sm text-gray-300">{car.city}</p>
+            <p className="font-medium text-sm text-[#b7bcc5]">{car.city}</p>
           </div>
           <Button className="w-full font-bold text-sm rounded-full bg-[#566DED] hover:bg-[#495EC8]">
             <CalculatorPrice />Simular parcelas
