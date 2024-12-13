@@ -9,7 +9,7 @@ import { CarData } from "@/types/api"
 import { getResults } from "@/utils/getResults"
 import { CarGridItem } from "./CarGridItem"
 import CarListItem from "./CarListItem"
-import { Button } from "@/components/ui/button"  // Suponiendo que Button está en este path
+import { Button } from "@/components/ui/button"
 
 interface ListCarsProps {
   gridMode: boolean
@@ -77,7 +77,7 @@ export default function ListCars({ gridMode }: ListCarsProps) {
 
       if (left > 1) {
         pages.push(1)
-        if (left > 2) pages.push("...") // Añadir "..." si hay más páginas al principio
+        if (left > 2) pages.push("...")
       }
 
       for (let i = left; i <= right; i++) {
@@ -85,7 +85,7 @@ export default function ListCars({ gridMode }: ListCarsProps) {
       }
 
       if (right < totalPages) {
-        if (right < totalPages - 1) pages.push("...") // Añadir "..." si hay más páginas al final
+        if (right < totalPages - 1) pages.push("...")
         pages.push(totalPages)
       }
     }
@@ -116,8 +116,6 @@ export default function ListCars({ gridMode }: ListCarsProps) {
         >
           <ArrowLeft />Anterior
         </Button>
-
-        {/* Botones de páginas */}
         <div className="flex gap-2">
           {generatePageNumbers().map((page, index) => (
             <Button
@@ -131,7 +129,6 @@ export default function ListCars({ gridMode }: ListCarsProps) {
             </Button>
           ))}
         </div>
-
         <Button
           variant="ghost"
           onClick={() => handlePageChange(currentPage + 1)}
