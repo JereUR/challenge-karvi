@@ -33,8 +33,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
                   <Image
                     src={image}
                     alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                    width={300}
-                    height={200}
+                    layout="fill"
+                    objectFit="cover"
                     className="object-cover rounded-lg"
                   />
                 </div>
