@@ -19,38 +19,24 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md md:w-[300px] w-full mx-auto">
+    <Card className="overflow-hidden shadow-md w-full min-w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
           <div className="relative w-full h-48">
             {images.map((image, index) => (
               <div
-                key={index}>
-                <div
-                  className={`hidden md:block absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
-                    }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                    width={300}
-                    height={200}
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
-                </div>
-                <div
-                  className={`md:hidden absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
-                    }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-lg"
-                    priority={index === 0}
-                  />
-                </div>
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                  }`}
+              >
+                <Image
+                  src={image}
+                  alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                  fill
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  priority={index === 0}
+                />
               </div>
             ))}
           </div>
