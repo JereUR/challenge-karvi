@@ -19,15 +19,15 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md md:w-[300px] w-full mx-auto">
+    <Card className="overflow-hidden shadow-md w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative w-full h-52">
+          <div className="relative w-[280px] h-[200px]">
             {images.map((image, index) => (
               <div
                 key={index}>
                 <div
-                  className={`hidden md:block absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                  className={`absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
                     }`}
                 >
                   <Image
@@ -35,10 +35,10 @@ export function CarGridItem({ car }: CardGridItemProps) {
                     alt={`${car.brand} ${car.model} - View ${index + 1}`}
                     width={300}
                     height={200}
-                    className="w-full h-52 object-cover rounded-lg"
+                    className="object-cover rounded-lg"
                   />
                 </div>
-                <div
+                {/* <div
                   className={`md:hidden absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
                     }`}
                 >
@@ -50,7 +50,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
                     className="rounded-lg"
                     priority={index === 0}
                   />
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
