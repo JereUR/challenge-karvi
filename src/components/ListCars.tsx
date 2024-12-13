@@ -108,14 +108,14 @@ export default function ListCars({ gridMode }: ListCarsProps) {
           )
         )}
       </div>
-      <div className="flex justify-between items-center gap-2 leading-6 border-t border-gray-300">
+      <div className="flex justify-between items-center gap-2 leading-6 border-t mt-1">
         <Button
           variant="ghost"
           onClick={() => handlePageChange(currentPage - 1)}
-          className="px-3 py-1 text-gray-400 rounded-full font-medium disabled:cursor-not-allowed"
+          className="px-3 py-1 text-gray-400 rounded-full font-medium"
           disabled={currentPage === 1}
         >
-          <ArrowLeft />Anterior
+          <ArrowLeft /> Anterior
         </Button>
         <div className="flex gap-2">
           {generatePageNumbers().map((page, index) => (
@@ -133,7 +133,7 @@ export default function ListCars({ gridMode }: ListCarsProps) {
         <Button
           variant="ghost"
           onClick={() => handlePageChange(currentPage + 1)}
-          className="px-3 py-1 text-gray-400 rounded-full font-medium disabled:cursor-not-allowed"
+          className="px-3 py-1 text-gray-400 rounded-full font-medium"
           disabled={currentPage === totalPages}
         >
           Próximo <ArrowRight className="h-5 w-5" />
