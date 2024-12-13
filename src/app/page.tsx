@@ -22,9 +22,9 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="mx-auto flex gap-4">
+    <div className="mx-auto flex flex-col gap-4">
       <Suspense>
-        <ListCars gridMode={gridMode} />
+        <ListCars gridMode={gridMode} setGridMode={setGridMode} />
       </Suspense>
     </div>
   )

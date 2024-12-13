@@ -1,7 +1,7 @@
 "use client"
 
 import axios from "axios"
-import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, Loader2, LayoutGrid, List } from "lucide-react"
 import { useEffect, useState } from "react"
 
 import { useToast } from "@/hooks/use-toast"
@@ -13,11 +13,12 @@ import { Button } from "@/components/ui/button"
 
 interface ListCarsProps {
   gridMode: boolean
+  setGridMode: (value: boolean) => void
 }
 
 const ITEMS_PER_PAGE = 12
 
-export default function ListCars({ gridMode }: ListCarsProps) {
+export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
   const [cars, setCars] = useState<CarData[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -97,7 +98,10 @@ export default function ListCars({ gridMode }: ListCarsProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p>{cars.length.toLocaleString("de-DE")} carros encontrados</p>
+      <div className="flex justify-between">
+        <p className="text-sm text-[#1B2141]">{cars.length.toLocaleString("de-DE")} carros encontrados</p>
+        <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
+      </div>
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center" : "flex flex-col space-y-4"}>
 
         {currentCars.map((car) =>
