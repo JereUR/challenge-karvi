@@ -19,10 +19,10 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md w-full md:w-[300px] mx-auto">
+    <Card className="overflow-hidden shadow-md w-full sm:w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative w-full aspect-[4/3]">
+          <div className="relative w-full h-[200px] sm:h-[225px]">
             {images.map((image, index) => (
               <div
                 key={index}
@@ -32,9 +32,9 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 <Image
                   src={image}
                   alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 300px"
-                  className="object-cover rounded-lg"
+                  width={300}
+                  height={225}
+                  className="w-full h-full object-cover rounded-lg"
                   priority={index === 0}
                 />
               </div>
