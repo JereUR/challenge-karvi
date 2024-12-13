@@ -19,10 +19,10 @@ export function CarGridItem({ car }: CardGridItemProps) {
   const images = Array(5).fill(carImage)
 
   return (
-    <Card className="overflow-hidden shadow-md w-full min-w-[300px] mx-auto">
+    <Card className="overflow-hidden shadow-md md:w-[300px] w-full mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative h-48 w-auto">
+          <div className="relative w-full h-48">
             {images.map((image, index) => (
               <div
                 key={index}
@@ -32,8 +32,10 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 <Image
                   src={image}
                   alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  className="object-cover rounded-lg"
+                  priority={index === 0}
                 />
               </div>
             ))}
@@ -51,8 +53,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 key={index}
                 onClick={() => setCurrentImage(index)}
                 className={`h-2 rounded-full transition-all ${currentImage === index
-                  ? "w-4 bg-white"
-                  : "w-2 bg-white/50 hover:bg-white/70"
+                    ? "w-4 bg-white"
+                    : "w-2 bg-white/50 hover:bg-white/70"
                   }`}
                 aria-label={`View image ${index + 1}`}
               />
