@@ -33,12 +33,12 @@ export function CarGridItem({ car }: CardGridItemProps) {
                   <Image
                     src={image}
                     alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                    layout="fill"
-                    objectFit="cover"
+                    width={300}
+                    height={200}
                     className="object-cover rounded-lg"
                   />
                 </div>
-                {/* <div
+                <div
                   className={`md:hidden absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
                     }`}
                 >
@@ -50,7 +50,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
                     className="rounded-lg"
                     priority={index === 0}
                   />
-                </div> */}
+                </div>
               </div>
             ))}
           </div>
