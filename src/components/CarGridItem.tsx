@@ -32,10 +32,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 <Image
                   src={image}
                   alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                  width={500}
-                  height={500}
-                  className="mx-auto size-fit max-h-[30rem] rounded-2xl"
-                  priority
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
             ))}
