@@ -31,8 +31,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
     <Card className="overflow-hidden shadow-md w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative w-[280px] h-[200px] overflow-hidden">
-            <div className="w-full h-full relative group">
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-md w-[280px] h-[200px] group">
               {images.map((image, index) => (
                 <div
                   key={index}
