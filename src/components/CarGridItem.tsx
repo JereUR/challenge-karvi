@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Heart } from 'lucide-react'
+import { Heart } from "lucide-react"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CarData } from "@/types/api"
 import carImage from "@/assets/car-image.png"
+import carImage2 from "@/assets/car-image-2.jpg"
 import { CalculatorPrice } from "@/utils/icons"
 
 interface CardGridItemProps {
@@ -16,18 +17,26 @@ interface CardGridItemProps {
 
 export function CarGridItem({ car }: CardGridItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
-  const images = Array(5).fill(carImage)
+  const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
+
+  const handlePrevious = () => {
+    setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+  }
 
   return (
     <Card className="overflow-hidden shadow-md w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
         <div className="relative">
-          <div className="relative w-[280px] h-[200px]">
-            {images.map((image, index) => (
-              <div
-                key={index}>
+          <div className="relative w-[280px] h-[200px] overflow-hidden">
+            <div className="w-full h-full relative group">
+              {images.map((image, index) => (
                 <div
-                  className={`absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+                  key={index}
+                  className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"
                     }`}
                 >
                   <Image
@@ -38,22 +47,35 @@ export function CarGridItem({ car }: CardGridItemProps) {
                     className="object-cover rounded-lg"
                   />
                 </div>
-                <div
-                  className={`md:hidden absolute inset-0 transition-opacity duration-300 ${currentImage === index ? "opacity-100" : "opacity-0"
+              ))}
+              <button
+                onClick={handlePrevious}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                ◀
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                ▶
+              </button>
+            </div>
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImage(index)}
+                  className={`h-2 rounded-full transition-all ${currentImage === index
+                    ? "w-4 bg-white"
+                    : "w-2 bg-white/50 hover:bg-white/70"
                     }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-lg"
-                    priority={index === 0}
-                  />
-                </div>
-              </div>
-            ))}
+                  aria-label={`View image ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -61,32 +83,26 @@ export function CarGridItem({ car }: CardGridItemProps) {
           >
             <Heart className="h-6 w-6" />
           </Button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImage(index)}
-                className={`h-2 rounded-full transition-all ${currentImage === index
-                  ? "w-4 bg-white"
-                  : "w-2 bg-white/50 hover:bg-white/70"
-                  }`}
-                aria-label={`View image ${index + 1}`}
-              />
-            ))}
-          </div>
         </div>
+
         <div className="px-1 py-3 space-y-2 leading-6">
           <div className="flex gap-3 text-sm text-muted-foreground">
-            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">{car.year}</span>
-            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">{car.mileage.toLocaleString('de-DE')} km</span>
+            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">
+              {car.year}
+            </span>
+            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">
+              {car.mileage.toLocaleString("de-DE")} km
+            </span>
           </div>
           <div>
-            <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
+            <h3 className="font-bold text-lg">
+              {car.brand} {car.model}
+            </h3>
             <p className="text-muted-foreground font-medium">{car.version}</p>
           </div>
           <div>
             <p className="font-medium text-2xl text-orange-400">
-              R${car.price.toLocaleString('de-DE')}
+              R${car.price.toLocaleString("de-DE")}
             </p>
             <p className="font-medium text-sm text-[#b7bcc5]">{car.city}</p>
           </div>
@@ -98,4 +114,3 @@ export function CarGridItem({ car }: CardGridItemProps) {
     </Card>
   )
 }
-
