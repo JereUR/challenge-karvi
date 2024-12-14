@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Heart } from "lucide-react"
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -48,18 +48,22 @@ export function CarGridItem({ car }: CardGridItemProps) {
               />
             </div>
           ))}
-          <button
+          <Button
             onClick={handlePrevious}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            variant='ghost'
+            size='icon'
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           >
-            ◀
-          </button>
-          <button
+            <ChevronLeft />
+          </Button>
+          <Button
             onClick={handleNext}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            variant='ghost'
+            size='icon'
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           >
-            ▶
-          </button>
+            <ChevronRight />
+          </Button>
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
             {images.map((_, index) => (
               <button

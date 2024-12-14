@@ -1,15 +1,13 @@
-"use client"
-
-import axios from "axios"
-import { ArrowLeft, ArrowRight, Loader2, LayoutGrid, List } from "lucide-react"
-import { useEffect, useState } from "react"
-
-import { useToast } from "@/hooks/use-toast"
-import { CarData } from "@/types/api"
-import { getResults } from "@/utils/getResults"
-import { CarGridItem } from "./CarGridItem"
-import CarListItem from "./CarListItem"
-import { Button } from "@/components/ui/button"
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { ArrowLeft, ArrowRight, Loader2, LayoutGrid, List } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
+import { CarData } from '@/types/api'
+import { getResults } from '@/utils/getResults'
+import { CarGridItem } from './CarGridItem'
+import CarListItem from './CarListItem'
+import { Button } from '@/components/ui/button'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ListCarsProps {
   gridMode: boolean
@@ -21,30 +19,36 @@ const ITEMS_PER_PAGE = 12
 export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
   const [cars, setCars] = useState<CarData[]>([])
   const [loading, setLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
+  const [totalResults, setTotalResults] = useState(0)
 
   const { toast } = useToast()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const currentPage = parseInt(searchParams.get("page") || "1", 10)
 
   useEffect(() => {
-    async function getCars() {
+    async function fetchCars() {
+      setLoading(true)
       try {
-        const data = await getResults()
-        setCars(data)
-        setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE))
+        const data = await getResults(currentPage, ITEMS_PER_PAGE)
+        setCars(data.items)
+        setTotalPages(data.totalPages)
+        setTotalResults(data.totalItems)
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
-          const errorMessage = err.response?.data || err.message || "Ocurrió un problema inesperado"
+          const errorMessage = err.response?.data || err.message || 'Ocurrió un problema inesperado'
           toast({
-            variant: "destructive",
-            title: "Error al cargar los datos",
+            variant: 'destructive',
+            title: 'Error al cargar los datos',
             description: errorMessage,
           })
         } else {
           toast({
-            variant: "destructive",
-            title: "Error al cargar los datos",
-            description: "Ocurrió un error desconocido",
+            variant: 'destructive',
+            title: 'Error al cargar los datos',
+            description: 'Ocurrió un error desconocido',
           })
         }
       } finally {
@@ -52,17 +56,14 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
       }
     }
 
-    getCars()
-  }, [])
+    fetchCars()
+  }, [currentPage])
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setCurrentPage(newPage)
+      router.push(`?page=${newPage}`)
     }
   }
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const currentCars = cars.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const generatePageNumbers = () => {
     const pages = []
@@ -78,7 +79,7 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
 
       if (left > 1) {
         pages.push(1)
-        if (left > 2) pages.push("...")
+        if (left > 2) pages.push('...')
       }
 
       for (let i = left; i <= right; i++) {
@@ -86,7 +87,7 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
       }
 
       if (right < totalPages) {
-        if (right < totalPages - 1) pages.push("...")
+        if (right < totalPages - 1) pages.push('...')
         pages.push(totalPages)
       }
     }
@@ -99,12 +100,12 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
-        <p className="text-sm text-[#1B2141]">{cars.length.toLocaleString("de-DE")} carros encontrados</p>
+        <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
         <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
       </div>
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center" : "flex flex-col space-y-4"}>
 
-        {currentCars.map((car) =>
+        {cars.map((car) =>
           gridMode ? (
             <CarGridItem key={car.id} car={car} />
           ) : (
