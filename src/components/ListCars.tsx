@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useCars } from '@/hooks/useCars'
 import { CarGridItem } from './CarGridItem'
-import CarListItem from './CarListItem'
+import { CarListItem } from './CarListItem'
 
 interface ListCarsProps {
   gridMode: boolean
