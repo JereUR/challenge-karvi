@@ -1,25 +1,12 @@
-"use client"
+'use client'
 
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 
 import ListCars from "@/components/ListCars"
+import { useGridMode } from "@/hooks/useGridMode"
 
 export default function Home() {
-  const [gridMode, setGridMode] = useState<boolean>(true)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setGridMode(true)
-      }
-    }
-
-    handleResize()
-
-    window.addEventListener("resize", handleResize)
-
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+  const [gridMode, setGridMode] = useGridMode()
 
   return (
     <div className="mx-auto flex flex-col gap-4">
