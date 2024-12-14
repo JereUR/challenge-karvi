@@ -87,12 +87,12 @@ export function CarGridItem({ car }: CardGridItemProps) {
             </Button>
           </div>
         </div>
-        <div className="px-1 py-3 space-y-2 leading-6">
+        <div className="px-1 py-3 space-y-2 leading-6 text-[#1B2141]">
           <div className="flex gap-3 text-sm text-muted-foreground">
-            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">
               {car.year}
             </span>
-            <span className="py-0.5 px-2 rounded-full bg-gray-100 font-medium">
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">
               {car.mileage.toLocaleString("de-DE")} km
             </span>
           </div>
@@ -100,13 +100,13 @@ export function CarGridItem({ car }: CardGridItemProps) {
             <h3 className="font-bold text-lg">
               {car.brand} {car.model}
             </h3>
-            <p className="text-muted-foreground font-medium">{car.version}</p>
+            <p className="font-medium">{car.version}</p>
           </div>
           <div>
-            <p className="font-medium text-2xl text-orange-400">
+            <p className="font-medium text-2xl text-[#FF7042]">
               R${car.price.toLocaleString("de-DE")}
             </p>
-            <p className="font-medium text-sm text-[#b7bcc5]">{car.city}</p>
+            <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
           <Button className="w-full font-bold text-sm rounded-full bg-[#566DED] hover:bg-[#495EC8]">
             <CalculatorPrice />Simular parcelas
