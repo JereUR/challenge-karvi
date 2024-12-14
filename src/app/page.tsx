@@ -17,7 +17,9 @@ export default function Home() {
       <div className="flex w-full grow md:gap-5 p-2 md:p-5">
         <div className="sticky top-[8.25rem] flex flex-col gap-5">
           <div className="hidden h-fit flex-none space-y-3 rounded-2xl bg-card px-3 py-5 shadow-sm sm:block lg:px-5 xl:w-80 z-50">
-            <FilterSelector />
+            <Suspense>
+              <FilterSelector />
+            </Suspense>
           </div>
         </div>
         <div className="mx-auto flex flex-col gap-4">
