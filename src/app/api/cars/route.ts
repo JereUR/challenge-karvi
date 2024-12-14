@@ -22,7 +22,13 @@ export async function GET(request: Request) {
       items: paginatedData
     })
   } catch (error) {
-    console.error('Error fetching data:', error)
-    return NextResponse.json({ error: 'Error fetching data' }, { status: 500 })
+    console.error('Error al obtener los datos:', error)
+    return NextResponse.json(
+      {
+        error:
+          'Error al obtener los datos. Por favor intente nuevamente. Error: '
+      },
+      { status: 500 }
+    )
   }
 }
