@@ -7,8 +7,6 @@ export function useGridMode() {
     const handleResize = () => {
       if (window.innerWidth > 768) {
         setGridMode(true)
-      } else {
-        setGridMode(false)
       }
     }
 
