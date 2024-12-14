@@ -30,60 +30,62 @@ export function CarGridItem({ car }: CardGridItemProps) {
   return (
     <Card className="overflow-hidden shadow-md w-[90vw] md:w-[300px] mx-auto">
       <CardContent className="p-3 pb-1">
-        <div className="relative overflow-hidden rounded-md w-[320px] h-[220px] md:w-[280px] md:h-[200px] group">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"
-                }`}
-            >
-              <Image
-                src={image}
-                alt={`${car.brand} ${car.model} - View ${index + 1}`}
-                fill
-                className="absolute inset-0 h-full w-full cursor-pointer object-cover mx-auto"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                quality={100}
-                priority
-              />
-            </div>
-          ))}
-          <Button
-            onClick={handlePrevious}
-            variant='ghost'
-            size='icon'
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <ChevronLeft />
-          </Button>
-          <Button
-            onClick={handleNext}
-            variant='ghost'
-            size='icon'
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <ChevronRight />
-          </Button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
-            {images.map((_, index) => (
-              <button
+        <div className="flex justify-center">
+          <div className="relative overflow-hidden rounded-md w-[320px] h-[220px] md:w-[280px] md:h-[200px] group">
+            {images.map((image, index) => (
+              <div
                 key={index}
-                onClick={() => setCurrentImage(index)}
-                className={`h-2 rounded-full transition-all ${currentImage === index
-                  ? "w-4 bg-white"
-                  : "w-2 bg-white/50 hover:bg-white/70"
+                className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"
                   }`}
-                aria-label={`View image ${index + 1}`}
-              />
+              >
+                <Image
+                  src={image}
+                  alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                  fill
+                  className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={100}
+                  priority
+                />
+              </div>
             ))}
+            <Button
+              onClick={handlePrevious}
+              variant='ghost'
+              size='icon'
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronLeft />
+            </Button>
+            <Button
+              onClick={handleNext}
+              variant='ghost'
+              size='icon'
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronRight />
+            </Button>
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImage(index)}
+                  className={`h-2 rounded-full transition-all ${currentImage === index
+                    ? "w-4 bg-white"
+                    : "w-2 bg-white/50 hover:bg-white/70"
+                    }`}
+                  aria-label={`View image ${index + 1}`}
+                />
+              ))}
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
+            >
+              <Heart className="h-6 w-6" />
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
-          >
-            <Heart className="h-6 w-6" />
-          </Button>
         </div>
         <div className="px-1 py-3 space-y-2 leading-6">
           <div className="flex gap-3 text-sm text-muted-foreground">
