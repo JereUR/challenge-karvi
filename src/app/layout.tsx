@@ -46,19 +46,9 @@ export default function RootLayout({
       <body
         className={raleway.className}
       >
-        <main className="flex min-h-screen flex-col">
-          <div className="flex w-full justify-around border-t bg-card py-3 sm:hidden z-50">
-            Icon filter bar
-          </div>
-          <div className="flex w-full grow md:gap-5 p-2 md:p-5">
-            <div className="sticky top-[8.25rem] flex flex-col gap-5">
-              <div className="hidden h-fit flex-none space-y-3 rounded-2xl bg-card px-3 py-5 shadow-sm sm:block lg:px-5 xl:w-80 z-50">
-                Filter bar
-              </div>
-            </div>
-            {children}
-            <Toaster />
-          </div>
+        <main>
+          {children}
+          <Toaster />
         </main>
       </body>
     </html>
