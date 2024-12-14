@@ -14,12 +14,12 @@ export async function getResults(
   itemsPerPage: number
 ): Promise<PaginatedResponse> {
   try {
-    const response = await axios.get<PaginatedResponse>(`/api/proxy`, {
+    const response = await axios.get<PaginatedResponse>(`/api/cars`, {
       params: { page, itemsPerPage }
     })
     return response.data
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Error al obtener los datos:', error)
     throw error
   }
 }
