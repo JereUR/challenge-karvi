@@ -24,11 +24,24 @@ const filterData = (
   })
 }
 
+const sortData = (data: CarData[], sortedBy: string) => {
+  if (sortedBy === 'price-asc') {
+    return data.sort((a, b) => a.price - b.price)
+  }
+  if (sortedBy === 'price-desc') {
+    return data.sort((a, b) => b.price - a.price)
+  }
+  return data
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1', 10)
     const itemsPerPage = parseInt(searchParams.get('itemsPerPage') || '12', 10)
+    const sortedBy = searchParams.get('sortedBy') || ''
+
+    console.log({ sortedBy })
 
     const filters = {
       marca: searchParams.getAll('marca[]'),
@@ -44,17 +57,18 @@ export async function GET(request: Request) {
     const data: CarData[] = apiResponse.data.items
 
     const filteredData = filterData(data, filters)
+    const sortedData = sortData(filteredData, sortedBy)
 
     const startIndex = (page - 1) * itemsPerPage
-    const paginatedData = filteredData.slice(
+    const paginatedData = sortedData.slice(
       startIndex,
       startIndex + itemsPerPage
     )
 
     return NextResponse.json({
       page,
-      totalItems: filteredData.length,
-      totalPages: Math.ceil(filteredData.length / itemsPerPage),
+      totalItems: sortedData.length,
+      totalPages: Math.ceil(sortedData.length / itemsPerPage),
       items: paginatedData
     })
   } catch (error) {

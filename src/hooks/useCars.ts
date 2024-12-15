@@ -28,11 +28,21 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
     [searchParams]
   )
 
+  const sortedBy = useMemo(
+    () => searchParams.get('sortedBy') || '',
+    [searchParams]
+  )
+
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true)
       try {
-        const data = await getResults(currentPage, ITEMS_PER_PAGE, filters)
+        const data = await getResults(
+          currentPage,
+          ITEMS_PER_PAGE,
+          filters,
+          sortedBy
+        )
 
         setCars(data.items)
         setTotalPages(data.totalPages)

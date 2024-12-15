@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { CarGridItem } from './CarGridItem'
 import { CarListItem } from './CarListItem'
 import { CarData } from '@/types/api'
+import { useState } from 'react'
+import { SortDropdown } from './SortDropdown'
 
 interface ListCarsProps {
   cars: CarData[],
@@ -17,6 +19,7 @@ interface ListCarsProps {
 }
 
 export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode }: ListCarsProps) {
+  const [currentSort, setCurrentSort] = useState('')
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -26,6 +29,18 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
       params.set('page', newPage.toString())
       router.push(`?${params.toString()}`)
     }
+  }
+
+  const handleSortChange = (newSort: string) => {
+    setCurrentSort(newSort)
+    const params = new URLSearchParams(searchParams.toString())
+    if (newSort) {
+      params.set('sortedBy', newSort)
+    } else {
+      params.delete('sortedBy')
+    }
+    params.set('page', '1')
+    router.push(`?${params.toString()}`)
   }
 
   const generatePageNumbers = () => {
@@ -70,7 +85,10 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
-        <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
+        <div className="flex items-center space-x-4">
+          <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />
+          <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
+        </div>
       </div>
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center" : "flex flex-col space-y-4"}>
         {cars.map((car) =>

@@ -9,12 +9,14 @@ export const getResults = async (
     ano?: string[]
     version?: string[]
     ciudad?: string[]
-  }
+  },
+  sortedBy: string
 ) => {
   const params = {
     page: currentPage,
     itemsPerPage: ITEMS_PER_PAGE,
-    ...filters
+    ...filters,
+    sortedBy
   }
 
   try {
