@@ -64,7 +64,7 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
         <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
         <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
       </div>
-      <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center" : "flex flex-col space-y-4"}>
+      <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center" : "flex flex-col space-y-4"}>
         {cars.map((car) =>
           gridMode ? (
             <CarGridItem key={car.id} car={car} />
@@ -88,7 +88,7 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
               variant="ghost"
               key={index}
               onClick={() => handlePageChange(Number(page))}
-              className={`text-base text-gray-400 font-bold rounded-none border-t-2 border-transparent px-3 py-6 hover:bg-background hover:text-gray-500 ${page === currentPage ? "text-[#566DED] border-t-2 border-[#566DED]" : ""}`}
+              className={`text-base text-gray-400 font-bold rounded-none border-t-2 border-transparent px-3 py-6 hover:bg-background hover:text-gray-500 ${page === currentPage ? "text-primary border-t-2 border-primary" : ""}`}
               disabled={page === "..." || page === currentPage}
             >
               {page}
