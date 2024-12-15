@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useMemo, useCallback } from "react"
+import { Suspense, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 

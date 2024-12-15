@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+
 import { useDebounce } from '@/hooks/useDebounce'
 
 export function useSearchLogic(initialSearchTerm: string) {

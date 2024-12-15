@@ -16,7 +16,7 @@ interface ListCarsProps {
   setGridMode: (value: boolean) => void
 }
 
-export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, onFavoriteToggle }: ListCarsProps) {
+export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode }: ListCarsProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
