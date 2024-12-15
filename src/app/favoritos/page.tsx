@@ -20,7 +20,9 @@ export default function Favorites() {
 
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
-      <Link href='/'><Button variant='ghost'>Volver al inicio</Button></Link>
+      <Link href='/'>
+        <Button variant='ghost'>Volver al inicio</Button>
+      </Link>
       <div className="mx-auto flex flex-col gap-4">
         <Suspense>
           <ListCars

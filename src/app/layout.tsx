@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Raleway } from "next/font/google"
+import { Suspense } from "react"
 
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
@@ -47,7 +48,9 @@ export default function RootLayout({
         className={raleway.className}
       >
         <main>
-          {children}
+          <Suspense>
+            {children}
+          </Suspense>
           <Toaster />
         </main>
       </body>
