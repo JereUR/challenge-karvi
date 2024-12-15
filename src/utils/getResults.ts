@@ -1,25 +1,26 @@
 import axios from 'axios'
 
-import { CarData } from '@/types/api'
+export const getResults = async (
+  currentPage: number,
+  ITEMS_PER_PAGE: number,
+  filters: {
+    modelo?: string[]
+    marca?: string[]
+    ano?: string[]
+    version?: string[]
+    ciudad?: string[]
+  }
+) => {
+  const params = {
+    page: currentPage,
+    itemsPerPage: ITEMS_PER_PAGE,
+    ...filters
+  }
 
-interface PaginatedResponse {
-  page: number
-  totalItems: number
-  totalPages: number
-  items: CarData[]
-}
-
-export async function getResults(
-  page: number,
-  itemsPerPage: number
-): Promise<PaginatedResponse> {
   try {
-    const response = await axios.get<PaginatedResponse>(`/api/cars`, {
-      params: { page, itemsPerPage }
-    })
+    const response = await axios.get('/api/cars', { params })
     return response.data
-  } catch (error) {
-    console.error('Error al obtener los datos:', error)
-    throw error
+  } catch (err) {
+    throw err
   }
 }

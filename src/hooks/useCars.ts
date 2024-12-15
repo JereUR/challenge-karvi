@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
+import { useSearchParams } from 'next/navigation'
 
 import { useToast } from '@/hooks/use-toast'
 import { CarData } from '@/types/api'
@@ -12,40 +15,49 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
   const [totalResults, setTotalResults] = useState(0)
 
   const { toast } = useToast()
+  const searchParams = useSearchParams()
+
+  const filters = useMemo(
+    () => ({
+      modelo: searchParams.getAll('modelo'),
+      marca: searchParams.getAll('marca'),
+      ano: searchParams.getAll('ano'),
+      version: searchParams.getAll('version'),
+      ciudad: searchParams.getAll('ciudad')
+    }),
+    [searchParams]
+  )
+
+  console.log({ filters })
 
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true)
       try {
-        const data = await getResults(currentPage, ITEMS_PER_PAGE)
+        const data = await getResults(currentPage, ITEMS_PER_PAGE, filters)
+
         setCars(data.items)
         setTotalPages(data.totalPages)
         setTotalResults(data.totalItems)
       } catch (err: unknown) {
-        if (axios.isAxiosError(err)) {
-          const errorMessage =
-            err.response?.data ||
+        const errorMessage = axios.isAxiosError(err)
+          ? err.response?.data ||
             err.message ||
             'Ocurrió un problema inesperado'
-          toast({
-            variant: 'destructive',
-            title: 'Error al cargar los datos',
-            description: errorMessage
-          })
-        } else {
-          toast({
-            variant: 'destructive',
-            title: 'Error al cargar los datos',
-            description: 'Ocurrió un error desconocido'
-          })
-        }
+          : 'Ocurrió un error desconocido'
+
+        toast({
+          variant: 'destructive',
+          title: 'Error al cargar los datos',
+          description: errorMessage
+        })
       } finally {
         setLoading(false)
       }
     }
 
     fetchCars()
-  }, [currentPage, ITEMS_PER_PAGE, toast])
+  }, [currentPage, ITEMS_PER_PAGE, filters, toast])
 
   return { cars, loading, totalPages, totalResults }
 }

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useCars } from '@/hooks/useCars'
 import { CarGridItem } from './CarGridItem'
 import { CarListItem } from './CarListItem'
+import { useMemo } from 'react'
 
 interface ListCarsProps {
   gridMode: boolean
@@ -16,12 +17,12 @@ const ITEMS_PER_PAGE = 12
 export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const currentPage = parseInt(searchParams.get("page") || "1", 10)
+  const currentPage = useMemo(() => parseInt(searchParams.get('page') || '1', 10), [searchParams])
 
   const { cars, loading, totalPages, totalResults } = useCars(currentPage, ITEMS_PER_PAGE)
 
   const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
+    if (newPage > 0 && newPage <= totalPages && newPage !== currentPage) {
       router.push(`?page=${newPage}`)
     }
   }
