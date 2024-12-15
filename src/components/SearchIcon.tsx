@@ -28,7 +28,11 @@ export default function SearchIcon() {
         onClick={handleToggle}
       >
         <Search className="h-5 w-5" />
-        {searchTerm === '' ? <span>Buscar</span> : <span>{searchTerm}</span>}
+        {searchTerm === '' ? (
+          <span>Buscar</span>
+        ) : (
+          <span className="truncate max-w-[25vw] md:max-w-[250px]">{searchTerm}</span>
+        )}
       </Button>
       <div
         className={cn(
@@ -43,7 +47,7 @@ export default function SearchIcon() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="pl-9 pr-9 h-10 w-full text-sm md:text-lg border-none focus:ring-0 focus:outline-none focus:border-none"
+            className="pl-9 pr-9 h-10 max-w-[30vw] text-sm md:text-lg border-none focus:ring-0 focus:outline-none focus:border-none"
           />
           <Search className="absolute left-1 top-1/2 h-4 w-4 -translate-y-1/2 pointer-events-none" />
           <Button
