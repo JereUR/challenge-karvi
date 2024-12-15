@@ -10,7 +10,7 @@ export function ActiveFilters() {
   const router = useRouter()
 
   const removeFilter = (key: string, value: string) => {
-    if (key === 'page' || key === 'q') return
+    if (key !== 'modelo' && key !== 'marca' && key !== 'ano' && key !== 'version' && key !== 'ciudad') return
 
     const current = new URLSearchParams(Array.from(searchParams.entries()))
     const currentValues = current.getAll(key)
@@ -28,7 +28,7 @@ export function ActiveFilters() {
     const current = new URLSearchParams(Array.from(searchParams.entries()))
 
     Array.from(current.keys()).forEach((key) => {
-      if (key !== 'page' && key !== 'q') {
+      if (key === 'modelo' || key === 'marca' || key === 'ano' || key === 'version' || key === 'ciudad') {
         current.delete(key)
       }
     })
@@ -43,7 +43,7 @@ export function ActiveFilters() {
     const filters: { key: string, value: string }[] = []
 
     params.forEach(([key, value]) => {
-      if (key !== 'page' && key !== 'q') {
+      if (key === 'modelo' || key === 'marca' || key === 'ano' || key === 'version' || key === 'ciudad') {
         filters.push({ key, value })
       }
     })
@@ -64,7 +64,7 @@ export function ActiveFilters() {
     ))
   }
 
-  const hasFilters = Array.from(searchParams.entries()).some(([key]) => key !== 'page' && key !== 'q')
+  const hasFilters = Array.from(searchParams.entries()).some(([key]) => key === 'modelo' || key === 'marca' || key === 'ano' || key === 'version' || key === 'ciudad')
 
   return (
     <>
