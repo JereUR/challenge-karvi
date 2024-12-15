@@ -18,11 +18,11 @@ export default function SearchIcon() {
   } = useSearchLogic('')
 
   return (
-    <div className="relative w-full max-w-[30vw] sm:max-w-[200px] md:max-w-[300px]">
+    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px]">
       <Button
         variant="ghost"
         className={cn(
-          "flex items-center gap-2 text-primary md:text-black text-sm md:text-lg font-bold w-full justify-start px-3 hover:md:text-primary",
+          "flex justify-center items-center gap-2 text-primary md:text-black text-sm md:text-lg font-bold w-full hover:md:text-primary",
           isExpanded && "hidden"
         )}
         onClick={handleToggle}
@@ -31,7 +31,7 @@ export default function SearchIcon() {
         {searchTerm === '' ? (
           <span>Buscar</span>
         ) : (
-          <span className="truncate max-w-[25vw] md:max-w-[250px]">{searchTerm}</span>
+          <span className="truncate max-w-[140px] md:max-w-[250px]">{searchTerm}</span>
         )}
       </Button>
       <div
@@ -40,20 +40,20 @@ export default function SearchIcon() {
           isExpanded ? "block" : "hidden"
         )}
       >
-        <div className="relative text-primary">
+        <div className="flex justify-center items-center h-12 relative text-primary">
           <Input
             ref={inputRef}
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="pl-9 pr-9 h-10 max-w-[30vw] text-sm md:text-lg border-none focus:ring-0 focus:outline-none focus:border-none"
+            className="pl-9 pr-9 h-10 w-full ml-2 max-w-[180px] text-sm md:text-lg border-none focus:ring-0 focus:outline-none focus:border-none"
           />
-          <Search className="absolute left-1 top-1/2 h-4 w-4 -translate-y-1/2 pointer-events-none" />
+          <Search className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 pointer-events-none" />
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-8 border-none focus:ring-0 focus:outline-none focus:border-none"
+            className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 border-none focus:ring-0 focus:outline-none focus:border-none"
             onClick={() => {
               setSearchTerm('')
               setIsExpanded(false)

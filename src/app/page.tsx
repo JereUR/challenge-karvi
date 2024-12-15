@@ -15,10 +15,14 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
       <Suspense>
-        <div className="flex w-full justify-around py-1 sm:hidden z-50">
-          <SearchIcon />
+        <div className="flex w-full py-1 sm:hidden z-50">
+          <div className="flex-1">
+            <SearchIcon />
+          </div>
           <div className="h-6 my-auto w-px bg-border" aria-hidden="true" />
-          <FilterIcon />
+          <div className="flex-1 ">
+            <FilterIcon />
+          </div>
         </div>
       </Suspense>
       <div className="flex w-full grow md:gap-5 p-2 md:p-5">
