@@ -6,7 +6,7 @@ import { SlidersVertical, X } from 'lucide-react'
 import { Button } from "./ui/button"
 import { FilterSelector } from "@/components/FilterSelector"
 
-export default function Filtericon() {
+export default function FilterIcon() {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleDialog = () => {
