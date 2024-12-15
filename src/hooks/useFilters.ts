@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 import { useToast } from '@/hooks/use-toast'
 import { getAllFilters } from '@/utils/getFilters'
 import { AllFilters } from '@/types/api'

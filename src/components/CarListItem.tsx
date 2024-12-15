@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { CarData } from "@/types/api"
 import carImage from "@/assets/car-image.png"
 import carImage2 from "@/assets/car-image-2.jpg"
-import { CalculatorPrice } from "@/utils/icons"
 
 interface CardGridItemProps {
   car: CarData
