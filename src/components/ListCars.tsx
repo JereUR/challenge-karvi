@@ -23,7 +23,9 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages && newPage !== currentPage) {
-      router.push(`?page=${newPage}`)
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('page', newPage.toString())
+      router.push(`?${params.toString()}`)
     }
   }
 
