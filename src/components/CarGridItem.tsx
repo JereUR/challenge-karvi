@@ -108,7 +108,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
             </p>
             <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
-          <Button className="w-full font-bold text-sm rounded-full bg-[#566DED] hover:bg-[#495EC8]">
+          <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70">
             <CalculatorPrice />Simular parcelas
           </Button>
         </div>
