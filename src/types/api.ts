@@ -9,27 +9,21 @@ export interface CarData {
   mileage: number
 }
 
-export interface FilterBrandYearVersion {
+export interface AvailableFilter {
   id: string
   name: string
+  slug?: string
+  brand?: string
 }
 
-export interface FilterCity {
-  id: string
-  name: string
-  slug: string
-}
-
-export interface FilterModel {
-  id: string
-  name: string
-  brand: string
+export interface FilterWithMatch extends AvailableFilter {
+  match: number
 }
 
 export interface AllFilters {
-  brands: FilterBrandYearVersion[]
-  cities: FilterCity[]
-  models: FilterModel[]
-  years: FilterBrandYearVersion[]
-  versions: FilterBrandYearVersion[]
+  brands: FilterWithMatch[]
+  cities: FilterWithMatch[]
+  models: FilterWithMatch[]
+  versions: FilterWithMatch[]
+  years: FilterWithMatch[]
 }
