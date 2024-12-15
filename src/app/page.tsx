@@ -17,9 +17,7 @@ export default function Home() {
       <div className="flex w-full justify-around py-1 sm:hidden z-50">
         <SearchIcon />
         <div className="h-6 my-auto w-px bg-border" aria-hidden="true" />
-        <Suspense>
-          <Filtericon />
-        </Suspense>
+        <Filtericon />
       </div>
       <div className="flex w-full grow md:gap-5 p-2 md:p-5">
         <div className="sticky top-[8.25rem] flex flex-col gap-5">

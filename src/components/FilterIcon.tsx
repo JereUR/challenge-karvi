@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { SlidersVertical } from "lucide-react"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -25,7 +25,9 @@ export default function Filtericon() {
             <DialogTitle className="text-xl font-semibold">Selecciona Filtros</DialogTitle>
           </DialogHeader>
           <div className="overflow-y-auto max-h-[60vh]">
-            <FilterSelector />
+            <Suspense>
+              <FilterSelector />
+            </Suspense>
           </div>
         </DialogContent>
       </Dialog>
