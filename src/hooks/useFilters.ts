@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
-import { FilterBrandYearVersion, FilterCity, FilterModel } from '@/types/api'
 import { getAllFilters } from '@/utils/getFilters'
+import { AllFilters } from '@/types/api'
 
 export const useFilters = () => {
-  const [filters, setFilters] = useState<{
-    brands: FilterBrandYearVersion[]
-    cities: FilterCity[]
-    models: FilterModel[]
-    years: FilterBrandYearVersion[]
-    versions: FilterBrandYearVersion[]
-  }>({
+  const [filters, setFilters] = useState<AllFilters>({
     brands: [],
     cities: [],
     models: [],
