@@ -28,8 +28,6 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
     [searchParams]
   )
 
-  console.log({ filters })
-
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true)

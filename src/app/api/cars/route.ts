@@ -38,8 +38,6 @@ export async function GET(request: Request) {
       ciudad: searchParams.getAll('ciudad[]')
     }
 
-    console.log({ searchParams })
-
     const apiResponse = await axios.get(
       process.env.NEXT_PUBLIC_API_URL as string
     )
