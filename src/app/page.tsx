@@ -1,6 +1,8 @@
 'use client'
 
-import { Suspense } from "react"
+import { Suspense, useMemo, useCallback } from "react"
+import { useSearchParams } from "next/navigation"
+import Link from "next/link"
 
 import ListCars from "@/components/ListCars"
 import { useGridMode } from "@/hooks/useGridMode"
@@ -8,9 +10,17 @@ import { FilterSelector } from "@/components/FilterSelector"
 import { ActiveFilters } from "@/components/ActiveFilters"
 import FilterIcon from "@/components/FilterIcon"
 import SearchIcon from "@/components/SearchIcon"
+import { ITEMS_PER_PAGE } from "@/types/api"
+import { useCars } from "@/hooks/useCars"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const [gridMode, setGridMode] = useGridMode()
+
+  const searchParams = useSearchParams()
+  const currentPage = useMemo(() => parseInt(searchParams.get('page') || '1', 10), [searchParams])
+
+  const { cars, loading, totalPages, totalResults } = useCars(currentPage, ITEMS_PER_PAGE)
 
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
@@ -34,15 +44,25 @@ export default function Home() {
                 <SearchIcon />
               </div>
             </Suspense>
+            <Link href='/favoritos'><Button variant='ghost'>Ir a favoritos</Button></Link>
           </div>
         </div>
         <div className="mx-auto flex flex-col gap-4">
           <Suspense>
             <ActiveFilters />
-            <ListCars gridMode={gridMode} setGridMode={setGridMode} />
+            <ListCars
+              cars={cars}
+              loading={loading}
+              totalPages={totalPages}
+              totalResults={totalResults}
+              currentPage={currentPage}
+              gridMode={gridMode}
+              setGridMode={setGridMode}
+            />
           </Suspense>
         </div>
       </div>
     </main>
   )
 }
+

@@ -2,24 +2,23 @@ import { ArrowLeft, ArrowRight, LayoutGrid, List, Loader2 } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
-import { useCars } from '@/hooks/useCars'
 import { CarGridItem } from './CarGridItem'
 import { CarListItem } from './CarListItem'
-import { useMemo } from 'react'
+import { CarData } from '@/types/api'
 
 interface ListCarsProps {
+  cars: CarData[],
+  loading: boolean,
+  totalPages: number,
+  totalResults: number,
+  currentPage: number,
   gridMode: boolean
   setGridMode: (value: boolean) => void
 }
 
-const ITEMS_PER_PAGE = 12
-
-export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
+export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, onFavoriteToggle }: ListCarsProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const currentPage = useMemo(() => parseInt(searchParams.get('page') || '1', 10), [searchParams])
-
-  const { cars, loading, totalPages, totalResults } = useCars(currentPage, ITEMS_PER_PAGE)
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages && newPage !== currentPage) {
@@ -60,6 +59,12 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
   }
 
   if (loading) return <Loader2 className="mx-auto animate-spin text-primary" />
+
+  if (cars.length === 0) return (
+    <div className="flex justify-center h-screen">
+      <p className="mt-4 italic">No hay carros para mostrar.</p>
+    </div>
+  )
 
   return (
     <div className="flex flex-col gap-4">
@@ -110,3 +115,4 @@ export default function ListCars({ gridMode, setGridMode }: ListCarsProps) {
     </div>
   )
 }
+

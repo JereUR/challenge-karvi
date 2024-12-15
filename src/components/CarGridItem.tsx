@@ -1,15 +1,14 @@
-"use client"
-
-import { useState } from "react"
-import Image from "next/image"
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react"
-
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { CarData } from "@/types/api"
-import carImage from "@/assets/car-image.png"
-import carImage2 from "@/assets/car-image-2.jpg"
-import { CalculatorPrice } from "@/utils/icons"
+import { useState } from 'react'
+import Image from 'next/image'
+import { ChevronLeft, ChevronRight, Heart } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { CarData } from '@/types/api'
+import { CalculatorPrice } from '@/utils/icons'
+import { cn } from '@/lib/utils'
+import carImage from '@/assets/car-image.png'
+import carImage2 from '@/assets/car-image-2.jpg'
+import useFavorite from '@/hooks/useFavorite'
 
 interface CardGridItemProps {
   car: CarData
@@ -18,6 +17,8 @@ interface CardGridItemProps {
 export function CarGridItem({ car }: CardGridItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
   const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
+
+  const { isFavorite, toggleFavorite } = useFavorite(car.id)
 
   const handlePrevious = () => {
     setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1))
@@ -33,11 +34,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
         <div className="flex justify-center">
           <div className="relative overflow-hidden rounded-md w-[320px] h-[220px] md:w-[280px] md:h-[200px] group">
             {images.map((image, index) => (
-              <div
-                key={index}
-                className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"
-                  }`}
-              >
+              <div key={index} className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"}`}>
                 <Image
                   src={image}
                   alt={`${car.brand} ${car.model} - View ${index + 1}`}
@@ -70,10 +67,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 <button
                   key={index}
                   onClick={() => setCurrentImage(index)}
-                  className={`h-2 rounded-full transition-all ${currentImage === index
-                    ? "w-4 bg-white"
-                    : "w-2 bg-white/50 hover:bg-white/70"
-                    }`}
+                  className={`h-2 rounded-full transition-all ${currentImage === index ? "w-4 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
                   aria-label={`View image ${index + 1}`}
                 />
               ))}
@@ -82,30 +76,26 @@ export function CarGridItem({ car }: CardGridItemProps) {
               variant="ghost"
               size="icon"
               className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
+              onClick={toggleFavorite}
             >
-              <Heart className="h-6 w-6" />
+              <Heart className={cn(
+                "h-4 w-4",
+                isFavorite && "fill-red-600 text-red-600",
+              )} />
             </Button>
           </div>
         </div>
         <div className="px-1 py-3 space-y-2 leading-6 text-[#1B2141]">
           <div className="flex gap-3 text-sm text-muted-foreground">
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">
-              {car.year}
-            </span>
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">
-              {car.mileage.toLocaleString("de-DE")} km
-            </span>
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.year}</span>
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("de-DE")} km</span>
           </div>
           <div>
-            <h3 className="font-bold text-lg">
-              {car.brand} {car.model}
-            </h3>
+            <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
             <p className="font-medium">{car.version}</p>
           </div>
           <div>
-            <p className="font-medium text-2xl text-[#FF7042]">
-              R${car.price.toLocaleString("de-DE")}
-            </p>
+            <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("de-DE")}</p>
             <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
           <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70">

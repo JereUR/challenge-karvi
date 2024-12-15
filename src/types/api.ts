@@ -1,5 +1,5 @@
 export interface CarData {
-  id: string
+  id: number
   city: string
   year: number
   brand: string
@@ -27,3 +27,5 @@ export interface AllFilters {
   versions: FilterWithMatch[]
   years: FilterWithMatch[]
 }
+
+export const ITEMS_PER_PAGE = 12
