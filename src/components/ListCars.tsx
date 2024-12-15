@@ -82,10 +82,10 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
   )
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
         <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />
           <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
         </div>

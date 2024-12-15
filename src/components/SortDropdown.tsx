@@ -18,14 +18,14 @@ export const SortDropdown = ({ currentSort, onSortChange }: SortDropdownProps) =
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center space-x-2 border-none shadow-none text-primary hover:text-primary">
+        <Button variant="ghost" className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none">
           <ArrowDownUp />
-          <span>
+          <span className='hidden md:inline'>
             {sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por'}
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className='text-primary space-y-1'>
+      <DropdownMenuContent align="end" className='text-primary text-xs md:sm space-y-1'>
         {sortOptions.map((option) => (
           <DropdownMenuItem
             key={option.value}
