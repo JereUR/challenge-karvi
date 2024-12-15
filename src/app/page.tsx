@@ -24,17 +24,22 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
-      <Suspense>
-        <div className="flex w-full py-1 sm:hidden z-50">
-          <div className="flex-1">
-            <SearchIcon />
+      <div className="sm:hidden">
+        <Suspense>
+          <div className="flex w-full py-1 z-50">
+            <div className="flex-1">
+              <SearchIcon />
+            </div>
+            <div className="h-6 my-auto w-px bg-border" aria-hidden="true" />
+            <div className="flex-1 ">
+              <FilterIcon />
+            </div>
           </div>
-          <div className="h-6 my-auto w-px bg-border" aria-hidden="true" />
-          <div className="flex-1 ">
-            <FilterIcon />
-          </div>
-        </div>
-      </Suspense>
+        </Suspense>
+        <Link href='/favoritos'>
+          <Button variant='ghost'>Ir a favoritos</Button>
+        </Link>
+      </div>
       <div className="flex w-full grow md:gap-5 p-2 md:p-5">
         <div className="sticky top-[8.25rem] flex flex-col gap-5">
           <div className="hidden h-fit flex-none space-y-3 px-3 py-5 sm:block lg:px-5 xl:w-80 z-50">
@@ -44,7 +49,9 @@ export default function Home() {
                 <SearchIcon />
               </div>
             </Suspense>
-            <Link href='/favoritos'><Button variant='ghost'>Ir a favoritos</Button></Link>
+            <Link href='/favoritos'>
+              <Button variant='ghost'>Ir a favoritos</Button>
+            </Link>
           </div>
         </div>
         <div className="mx-auto flex flex-col gap-4">
