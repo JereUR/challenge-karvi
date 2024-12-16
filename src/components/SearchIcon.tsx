@@ -20,7 +20,7 @@ export default function SearchIcon() {
   } = useSearchLogic('')
 
   return (
-    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px] h-10">
+    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px] h-10 md:mt-2">
       <Button
         variant="ghost"
         className={cn(
@@ -49,7 +49,7 @@ export default function SearchIcon() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="h-10 w-full ml-2 pl-9 md:pl-0 max-w-[180px] text-sm md:text-lg border-0 border-b border-primary rounded-none shadow-none focus:border-blue-500 focus:ring-0 focus:outline-none active:outline-none focus:border-none active:border-none active:ring-0"
+            className="h-10 w-full ml-2 pl-9 md:pl-0 max-w-[180px] text-sm md:text-lg border-none outline-none border-b border-primary rounded-none shadow-none focus:border-blue-500 focus:ring-0 focus:outline-none active:outline-none focus:border-none active:border-none active:ring-0"
           />
           <Search className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 pointer-events-none" />
           <Button
