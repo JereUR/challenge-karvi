@@ -13,17 +13,18 @@ export default function SearchIcon() {
     searchTerm,
     inputRef,
     setSearchTerm,
-    setIsExpanded,
+    exitButtonRef,
     handleToggle,
     handleKeyDown,
+    handleExit
   } = useSearchLogic('')
 
   return (
-    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px]">
+    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px] mt-2 h-10">
       <Button
         variant="ghost"
         className={cn(
-          "flex justify-center items-center gap-2 text-primary md:text-black text-sm md:text-lg font-bold w-full hover:md:text-primary",
+          "flex justify-start items-center gap-4 text-primary md:border-b md:border-primary rounded-none cursor-text text-sm md:text-lg font-bold w-full hover:md:text-primary",
           isExpanded && "hidden"
         )}
         onClick={handleToggle}
@@ -41,24 +42,22 @@ export default function SearchIcon() {
           isExpanded ? "block" : "hidden"
         )}
       >
-        <div className="flex justify-center items-center h-12 relative text-primary">
+        <div className="flex justify-center items-center relative h-10 text-primary">
           <Input
             ref={inputRef}
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="pl-9 pr-9 h-10 w-full ml-2 max-w-[180px] text-sm md:text-lg border-none focus:ring-0 focus:outline-none focus:border-none"
+            className="h-10 w-full ml-2 pl-9 md:pl-0 max-w-[180px] text-sm md:text-lg border-0 border-b border-primary rounded-none shadow-none focus:border-blue-500 focus:ring-0 focus:outline-none active:outline-none focus:border-none active:border-none active:ring-0"
           />
           <Search className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 pointer-events-none" />
           <Button
+            ref={exitButtonRef}
             variant="ghost"
             size="icon"
             className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 border-none focus:ring-0 focus:outline-none focus:border-none"
-            onClick={() => {
-              setSearchTerm('')
-              setIsExpanded(false)
-            }}
+            onClick={handleExit}
           >
             <X className="h-4 w-4" />
           </Button>
