@@ -51,6 +51,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
               onClick={handlePrevious}
               variant='ghost'
               size='icon'
+              aria-label='Foto anterior'
               data-testid="prev-button"
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -60,6 +61,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
               onClick={handleNext}
               variant='ghost'
               size='icon'
+              aria-label='Foto siguiente'
               data-testid="next-button"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -79,6 +81,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
             <Button
               variant="ghost"
               size="icon"
+              aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
               className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
               onClick={toggleFavorite}
             >
@@ -103,7 +106,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
             <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("de-DE")}</p>
             <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
-          <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70">
+          <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70" aria-label='Simular parcelas'>
             <CalculatorPrice />Simular parcelas
           </Button>
         </div>

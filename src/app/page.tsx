@@ -42,6 +42,7 @@ export default function Home() {
         <Link href='/favoritos' className="block px-8 mt-2">
           <Button
             variant='outline'
+            aria-label='Ir a Favoritos'
             className="w-full bg-primary text-white border-none transition-all duration-300 shadow-md hover:bg-primary/50"
           >
             <Heart className="w-5 h-5 mr-2" />
@@ -55,6 +56,7 @@ export default function Home() {
             <Link href='/favoritos' className="block">
               <Button
                 variant='outline'
+                aria-label='Ir a Favoritos'
                 className="w-full bg-white text-primary border-primary hover:bg-primary/30 transition-all duration-300 group overflow-hidden relative"
               >
                 <span className="relative z-10 flex items-center">

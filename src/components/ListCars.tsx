@@ -113,6 +113,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
           variant="ghost"
           onClick={() => handlePageChange(currentPage - 1)}
           className="px-3 py-1 text-gray-400 rounded-full font-medium"
+          aria-label='Página anterior'
           disabled={currentPage === 1}
         >
           <ArrowLeft /> <span className='hidden md:block'>Anterior</span>
@@ -123,6 +124,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
               variant="ghost"
               key={index}
               onClick={() => handlePageChange(Number(page))}
+              aria-label={`Página ${page}`}
               className={`text-base text-gray-400 font-bold rounded-none border-t-2 border-transparent px-3 py-6 hover:bg-background hover:text-gray-500 ${page === currentPage ? "text-primary border-t-2 border-primary" : ""}`}
               disabled={page === "..." || page === currentPage}
             >
@@ -134,6 +136,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
           variant="ghost"
           onClick={() => handlePageChange(currentPage + 1)}
           className="px-3 py-1 text-gray-400 rounded-full font-medium"
+          aria-label='Página siguiente'
           disabled={currentPage === totalPages}
         >
           <span className='hidden md:block'>Próximo</span> <ArrowRight className="h-5 w-5" />

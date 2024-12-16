@@ -18,7 +18,7 @@ export const SortDropdown = ({ currentSort, onSortChange }: SortDropdownProps) =
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none">
+        <Button variant="ghost" className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none" aria-label='Ordenar por'>
           <ArrowDownUp />
           <span className='hidden md:inline'>
             {sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por'}

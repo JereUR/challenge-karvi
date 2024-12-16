@@ -54,6 +54,7 @@ export function CarListItem({ car }: CardGridItemProps) {
             onClick={handlePrevious}
             variant="ghost"
             size="icon"
+            aria-label='Foto anterior'
             className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 flex items-center justify-center"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -62,6 +63,7 @@ export function CarListItem({ car }: CardGridItemProps) {
             onClick={handleNext}
             variant="ghost"
             size="icon"
+            aria-label='Foto siguiente'
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 flex items-center justify-center"
           >
             <ChevronRight className="h-4 w-4" />
@@ -82,6 +84,7 @@ export function CarListItem({ car }: CardGridItemProps) {
           <Button
             variant="ghost"
             size="icon"
+            aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
             className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
             onClick={toggleFavorite}
           >

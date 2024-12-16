@@ -56,6 +56,7 @@ export function ActiveFilters() {
         {value}
         <button
           onClick={() => removeFilter(key, value)}
+          aria-label='Eliminar filtro'
           className="ml-2"
         >
           <X className="h-4 w-4 transition-transform cursor-pointer duration-100 ease-in-out hover:scale-110" />
@@ -73,6 +74,7 @@ export function ActiveFilters() {
           <div>{renderActiveFilters()}</div>
           <Button
             variant='ghost'
+            aria-label='Limpiar filtros'
             onClick={clearAllFilters}
             className="text-primary hover:text-destructive hover:bg-red-100"
           >

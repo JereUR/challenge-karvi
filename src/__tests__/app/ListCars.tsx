@@ -30,6 +30,7 @@ describe('ListCars Component', () => {
         currentPage={1}
         gridMode={true}
         setGridMode={jest.fn()}
+        showSortOption={true}
       />
     )
     expect(screen.getByTestId('car-grid-skeleton')).toBeInTheDocument()
@@ -45,6 +46,7 @@ describe('ListCars Component', () => {
         currentPage={1}
         gridMode={true}
         setGridMode={jest.fn()}
+        showSortOption={true}
       />
     )
     expect(screen.getByText(/No hay carros para mostrar/i)).toBeInTheDocument()
@@ -73,6 +75,7 @@ describe('ListCars Component', () => {
         currentPage={1}
         gridMode={true}
         setGridMode={jest.fn()}
+        showSortOption={true}
       />
     )
 

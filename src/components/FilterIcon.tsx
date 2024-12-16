@@ -15,7 +15,8 @@ export default function FilterIcon() {
 
   return (
     <div className="flex justify-center h-10">
-      <Button variant='ghost' onClick={toggleDialog} className="flex items-center gap-2 text-primary font-bold">
+      <Button variant='ghost' onClick={toggleDialog} className="flex items-center gap-2 text-primary font-bold"
+        aria-label="Filtrar">
         <SlidersVertical />Filtrar
       </Button>
       <div
@@ -26,6 +27,7 @@ export default function FilterIcon() {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Cerrar filtros"
             className="absolute top-2 right-2"
             onClick={toggleDialog}
           >

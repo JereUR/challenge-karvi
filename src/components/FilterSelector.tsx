@@ -54,6 +54,7 @@ export function FilterSelector() {
             key={option.id}
             className={`w-full text-left py-1 hover:text-primary ${selectedValues.includes(option.id) || selectedValues.includes(option.name.toString()) ? 'text-primary font-semibold' : ''
               }`}
+            aria-label={`${option.name}`}
             onClick={() => updateFilter(filterKey, option.id)}
           >
             {option.name}

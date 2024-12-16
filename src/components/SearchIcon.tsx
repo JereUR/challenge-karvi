@@ -27,6 +27,7 @@ export default function SearchIcon() {
           "flex justify-start items-center gap-4 text-primary md:border-b md:border-primary rounded-none cursor-text text-sm md:text-lg font-bold w-full hover:md:text-primary",
           isExpanded && "hidden"
         )}
+        aria-label='Buscar'
         onClick={handleToggle}
       >
         <Search className="h-5 w-5" />
@@ -56,6 +57,7 @@ export default function SearchIcon() {
             ref={exitButtonRef}
             variant="ghost"
             size="icon"
+            aria-label='Cerrar buscador'
             className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 border-none focus:ring-0 focus:outline-none focus:border-none"
             onClick={handleExit}
           >
