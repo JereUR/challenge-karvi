@@ -3,6 +3,7 @@
 import { Suspense, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { Heart } from 'lucide-react'
 
 import ListCars from "@/components/ListCars"
 import { useGridMode } from "@/hooks/useGridMode"
@@ -36,22 +37,37 @@ export default function Home() {
             </div>
           </div>
         </Suspense>
-        <Link href='/favoritos'>
-          <Button variant='ghost'>Ir a favoritos</Button>
+        <Link href='/favoritos' className="block px-2 mt-2">
+          <Button
+            variant='outline'
+            className="w-full bg-primary text-white border-none transition-all duration-300 shadow-md hover:bg-primary/50"
+          >
+            <Heart className="w-5 h-5 mr-2" />
+            Ir a Favoritos
+          </Button>
         </Link>
       </div>
       <div className="flex w-full grow md:gap-5 p-2 md:p-5">
         <div className="sticky top-[8.25rem] flex flex-col gap-5">
           <div className="hidden h-fit flex-none space-y-3 px-3 py-5 sm:block lg:px-5 xl:w-80 z-50">
+            <Link href='/favoritos' className="block">
+              <Button
+                variant='outline'
+                className="w-full bg-white text-primary border-primary hover:bg-primary/30 transition-all duration-300 group overflow-hidden relative"
+              >
+                <span className="relative z-10 flex items-center">
+                  <Heart className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:scale-110" />
+                  Ir a Favoritos
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary/70 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              </Button>
+            </Link>
             <Suspense>
               <div className="flex flex-col gap-4">
                 <FilterSelector />
                 <SearchIcon />
               </div>
             </Suspense>
-            <Link href='/favoritos'>
-              <Button variant='ghost'>Ir a favoritos</Button>
-            </Link>
           </div>
         </div>
         <div className="mx-auto flex flex-col gap-4">
