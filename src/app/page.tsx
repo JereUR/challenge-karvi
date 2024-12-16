@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
-      <div className="sm:hidden">
+      <div className="mt-2 sm:hidden">
         <Suspense>
           <div className="flex w-full py-1 z-50">
             <div className="flex-1">

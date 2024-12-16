@@ -20,7 +20,7 @@ export default function SearchIcon() {
   } = useSearchLogic('')
 
   return (
-    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px] mt-2 h-10">
+    <div className="relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-[300px] h-10">
       <Button
         variant="ghost"
         className={cn(
