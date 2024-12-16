@@ -1,9 +1,14 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from "@testing-library/react"
+import { CarData } from "@/types/api"
+import useFavorite from "@/hooks/useFavorite"
+import { CarGridItem } from "@/components/CarGridItem"
 
-import { CarGridItem } from '@/components/CarGridItem'
+// Mockear el hook useFavorite
+jest.mock("./../../hooks/useFavorite", () => jest.fn())
 
+const mockUseFavorite = useFavorite as jest.MockedFunction<typeof useFavorite>
 
-const carMock = {
+const car: CarData = {
   "id": 1,
   "city": "São Paulo",
   "year": 2024,
@@ -14,14 +19,84 @@ const carMock = {
   "mileage": 5000
 }
 
-describe('Car card', () => {
-  const setup = () => render(<CarGridItem car={carMock} />)
-
+describe("CarGridItem", () => {
   beforeEach(() => {
+    mockUseFavorite.mockReturnValue({
+      isFavorite: false,
+      toggleFavorite: jest.fn(),
+    })
   })
 
-  it('should renders home Car Card button', () => {
-    setup()
+  it("should renders the car details correctly", () => {
+    render(<CarGridItem car={car} />)
+
+    expect(screen.getByText("CHEVROLET ONIX")).toBeInTheDocument()
+    expect(screen.getByText("1.0 LT MANUAL")).toBeInTheDocument()
+    expect(screen.getByText("R$85.000")).toBeInTheDocument()
+    expect(screen.getByText("São Paulo")).toBeInTheDocument()
+    expect(screen.getByText("5.000 km")).toBeInTheDocument()
+    expect(screen.getByText("2024")).toBeInTheDocument()
+  })
+
+  it("should changes images when navigation buttons are clicked", async () => {
+    render(<CarGridItem car={car} />)
+
+    const nextButton = await screen.findByTestId('next-button')
+    const prevButton = await screen.findByTestId('prev-button')
+
+    const images = screen.getAllByAltText(/CHEVROLET ONIX/i)
+    expect(images[0]).toBeVisible()
+
+    fireEvent.click(nextButton)
+    expect(images[1]).toBeVisible()
+
+    fireEvent.click(prevButton)
+    expect(images[0]).toBeVisible()
+  })
+
+  it("should updates the current image when a dot indicator is clicked", () => {
+    render(<CarGridItem car={car} />)
+
+    const dotButtons = screen.getAllByRole("button", { name: /view image/i })
+
+    fireEvent.click(dotButtons[1])
+
+    const images = screen.getAllByAltText(/CHEVROLET ONIX/i)
+    expect(images[1]).toBeVisible()
+  })
+
+  it("should toggles the favorite state when the heart button is clicked", async () => {
+    const toggleFavoriteMock = jest.fn()
+    mockUseFavorite.mockReturnValue({
+      isFavorite: false,
+      toggleFavorite: toggleFavoriteMock,
+    })
+
+    render(<CarGridItem car={car} />)
+
+    const favoriteButton = await screen.findByTestId('heart-button')
+
+    fireEvent.click(favoriteButton)
+    expect(toggleFavoriteMock).toHaveBeenCalled()
+  })
+
+  it("shows the heart icon filled when the car is a favorite", () => {
+    mockUseFavorite.mockReturnValue({
+      isFavorite: true,
+      toggleFavorite: jest.fn(),
+    })
+
+    render(<CarGridItem car={car} />)
+
+    const favoriteIcon = screen.getByTestId("heart-button")
+
+    expect(favoriteIcon).toHaveClass("fill-red-600")
+  })
+
+
+  it("should renders the simulate installment button", () => {
+    render(<CarGridItem car={car} />)
+
     expect(screen.getByText('Simular parcelas')).toBeInTheDocument()
   })
 })
