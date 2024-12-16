@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export function FilterSelectorSkeleton() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-sm" data-testid="filter-selector-skeleton">
       <div className="space-y-4">
         {Array.from({ length: 5 }).map((_, index) => (
           <div key={index} className="border-b pb-4">

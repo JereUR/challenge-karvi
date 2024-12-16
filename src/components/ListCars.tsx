@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, LayoutGrid, List, Loader2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, LayoutGrid, List } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
@@ -88,7 +88,14 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
         <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
         <div className="flex items-center space-x-2">
           <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />
-          <div className="md:hidden cursor-pointer text-[#87899C]" onClick={() => setGridMode(!gridMode)}>{gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}</div>
+          <div
+            className="md:hidden cursor-pointer text-[#87899C]"
+            onClick={() => setGridMode(!gridMode)}
+            aria-label="Alternar modo de grilla/lista"
+            data-testid="toggle-button"
+          >
+            {gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}
+          </div>
         </div>
       </div>
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center" : "flex flex-col space-y-4"}>

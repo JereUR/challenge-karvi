@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function CarGridSkeleton() {
   return (
-    <div className="flex flex-col gap-2 m-2">
+    <div className="flex flex-col gap-2 m-2" data-testid='car-grid-skeleton'>
       <div className="flex justify-between">
         <Skeleton className="h-5 w-32 md:w-60" />
         <div className='flex gap-2'>

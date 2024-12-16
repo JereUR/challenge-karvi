@@ -51,6 +51,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
               onClick={handlePrevious}
               variant='ghost'
               size='icon'
+              data-testid="prev-button"
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronLeft />
@@ -59,6 +60,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
               onClick={handleNext}
               variant='ghost'
               size='icon'
+              data-testid="next-button"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronRight />
@@ -68,6 +70,7 @@ export function CarGridItem({ car }: CardGridItemProps) {
                 <button
                   key={index}
                   onClick={() => setCurrentImage(index)}
+                  data-testid="dot-button"
                   className={`h-2 rounded-full transition-all ${currentImage === index ? "w-4 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
                   aria-label={`View image ${index + 1}`}
                 />
@@ -82,7 +85,8 @@ export function CarGridItem({ car }: CardGridItemProps) {
               <Heart className={cn(
                 "h-4 w-4",
                 isFavorite && "fill-red-600 text-red-600",
-              )} />
+              )}
+                data-testid="heart-button" />
             </Button>
           </div>
         </div>
