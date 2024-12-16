@@ -37,7 +37,7 @@ export default function Home() {
             </div>
           </div>
         </Suspense>
-        <Link href='/favoritos' className="block px-2 mt-2">
+        <Link href='/favoritos' className="block px-8 mt-2">
           <Button
             variant='outline'
             className="w-full bg-primary text-white border-none transition-all duration-300 shadow-md hover:bg-primary/50"

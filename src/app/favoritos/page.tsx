@@ -22,7 +22,7 @@ export default function Favorites() {
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
       <div className="sm:hidden">
-        <Link href='/' className="block mt-2">
+        <Link href='/' className="block px-8 mt-2">
           <Button
             variant='outline'
             className="w-full bg-primary text-white border-none transition-all duration-300 shadow-md hover:bg-primary/50"
