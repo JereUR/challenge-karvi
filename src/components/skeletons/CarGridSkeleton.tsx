@@ -4,8 +4,12 @@ export default function CarGridSkeleton() {
   return (
     <div className="flex flex-col gap-2 m-2">
       <div className="flex justify-between">
-        <Skeleton className="h-5 w-60" />
-        <Skeleton className="h-5 w-36" />
+        <Skeleton className="h-5 w-32 md:w-60" />
+        <div className='flex gap-2'>
+          <Skeleton className="h-5 w-8 md:hidden" />
+          <Skeleton className="h-5 w-8 md:w-36" />
+        </div>
+
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center">
         {Array.from({ length: 8 }, (_, index) => (
