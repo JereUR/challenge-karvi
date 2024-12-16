@@ -7,6 +7,7 @@ import { CarListItem } from './CarListItem'
 import { CarData } from '@/types/api'
 import { useState } from 'react'
 import { SortDropdown } from './SortDropdown'
+import CarGridSkeleton from './skeletons/CarGridSkeleton'
 
 interface ListCarsProps {
   cars: CarData[],
@@ -73,7 +74,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
     return pages
   }
 
-  if (loading) return <Loader2 className="mx-auto animate-spin text-primary" />
+  if (loading) return <CarGridSkeleton />
 
   if (cars.length === 0) return (
     <div className="flex justify-center h-screen">

@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { FilterWithMatch } from '@/types/api'
+import { FilterSelectorSkeleton } from './skeletons/FilterSelectorSkeleton'
 
 export function FilterSelector() {
   const { brands, cities, models, years, versions, loading } = useFilters()
@@ -38,7 +39,7 @@ export function FilterSelector() {
   }
 
   if (loading) {
-    return <div className="text-center p-4">Cargando filtros...</div>
+    return <FilterSelectorSkeleton />
   }
 
   const renderFilterOptions = (
