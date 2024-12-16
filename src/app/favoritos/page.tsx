@@ -57,6 +57,7 @@ export default function Favorites() {
             currentPage={currentPage}
             gridMode={gridMode}
             setGridMode={setGridMode}
+            showSortOption={false}
           />
         </Suspense>
       </div>

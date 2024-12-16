@@ -83,6 +83,7 @@ export default function Home() {
               currentPage={currentPage}
               gridMode={gridMode}
               setGridMode={setGridMode}
+              showSortOption={true}
             />
           </Suspense>
         </div>

@@ -17,9 +17,10 @@ interface ListCarsProps {
   currentPage: number,
   gridMode: boolean
   setGridMode: (value: boolean) => void
+  showSortOption: boolean
 }
 
-export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode }: ListCarsProps) {
+export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, showSortOption }: ListCarsProps) {
   const [currentSort, setCurrentSort] = useState('')
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -87,7 +88,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
         <div className="flex items-center space-x-2">
-          <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />
+          {showSortOption && <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />}
           <div
             className="md:hidden cursor-pointer text-[#87899C]"
             onClick={() => setGridMode(!gridMode)}
