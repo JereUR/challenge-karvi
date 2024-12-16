@@ -10,13 +10,15 @@ export const getResults = async (
     version?: string[]
     ciudad?: string[]
   },
-  sortedBy: string
+  sortedBy: string,
+  q: string
 ) => {
   const params = {
     page: currentPage,
     itemsPerPage: ITEMS_PER_PAGE,
     ...filters,
-    sortedBy
+    sortedBy,
+    q
   }
 
   try {

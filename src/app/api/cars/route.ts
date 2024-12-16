@@ -11,10 +11,20 @@ const filterData = (
     ano?: string[]
     version?: string[]
     ciudad?: string[]
-  }
+  },
+  query: string
 ) => {
   return data.filter((item) => {
+    const matchesQuery =
+      !query ||
+      Object.entries(item)
+        .filter(([key]) => key !== 'id')
+        .some(([_, value]) =>
+          value.toString().toLowerCase().includes(query.toLowerCase())
+        )
+
     return (
+      matchesQuery &&
       (!filters.marca?.length || filters.marca.includes(item.brand)) &&
       (!filters.modelo?.length || filters.modelo.includes(item.model)) &&
       (!filters.ano?.length || filters.ano.includes(item.year.toString())) &&
@@ -40,8 +50,7 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get('page') || '1', 10)
     const itemsPerPage = parseInt(searchParams.get('itemsPerPage') || '12', 10)
     const sortedBy = searchParams.get('sortedBy') || ''
-
-    console.log({ sortedBy })
+    const q = searchParams.get('q') || ''
 
     const filters = {
       marca: searchParams.getAll('marca[]'),
@@ -56,7 +65,7 @@ export async function GET(request: Request) {
     )
     const data: CarData[] = apiResponse.data.items
 
-    const filteredData = filterData(data, filters)
+    const filteredData = filterData(data, filters, q)
     const sortedData = sortData(filteredData, sortedBy)
 
     const startIndex = (page - 1) * itemsPerPage

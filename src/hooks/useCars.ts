@@ -33,6 +33,8 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
     [searchParams]
   )
 
+  const q = useMemo(() => searchParams.get('q') || '', [searchParams])
+
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true)
@@ -41,7 +43,8 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
           currentPage,
           ITEMS_PER_PAGE,
           filters,
-          sortedBy
+          sortedBy,
+          q
         )
 
         setCars(data.items)
