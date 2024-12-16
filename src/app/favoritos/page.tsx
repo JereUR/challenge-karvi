@@ -10,6 +10,7 @@ import { useGridMode } from "@/hooks/useGridMode"
 import { ITEMS_PER_PAGE } from "@/types/api"
 import { useFavoritesCars } from "@/hooks/useFavoritesCars"
 import { Button } from "@/components/ui/button"
+import CarGridSkeleton from "@/components/skeletons/CarGridSkeleton"
 
 export default function Favorites() {
   const [gridMode, setGridMode] = useGridMode()
@@ -47,7 +48,7 @@ export default function Favorites() {
         </Link>
       </div>
       <div className="mx-auto flex flex-col gap-4">
-        <Suspense>
+        <Suspense fallback={<CarGridSkeleton />}>
           <ListCars
             cars={cars}
             loading={loading}

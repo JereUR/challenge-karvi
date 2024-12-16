@@ -14,6 +14,8 @@ import SearchIcon from "@/components/SearchIcon"
 import { ITEMS_PER_PAGE } from "@/types/api"
 import { useCars } from "@/hooks/useCars"
 import { Button } from "@/components/ui/button"
+import CarGridSkeleton from "@/components/skeletons/CarGridSkeleton"
+import { FilterSelectorSkeleton } from "@/components/skeletons/FilterSelectorSkeleton"
 
 export default function Home() {
   const [gridMode, setGridMode] = useGridMode()
@@ -62,7 +64,7 @@ export default function Home() {
                 <span className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary/70 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
               </Button>
             </Link>
-            <Suspense>
+            <Suspense fallback={<FilterSelectorSkeleton />}>
               <div className="flex flex-col gap-4">
                 <FilterSelector />
                 <SearchIcon />
@@ -71,7 +73,7 @@ export default function Home() {
           </div>
         </div>
         <div className="mx-auto flex flex-col gap-4">
-          <Suspense>
+          <Suspense fallback={<CarGridSkeleton />}>
             <ActiveFilters />
             <ListCars
               cars={cars}
