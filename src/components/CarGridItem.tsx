@@ -38,18 +38,24 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
         <div className="flex justify-center">
           <div className="relative overflow-hidden rounded-md w-[320px] h-[220px] md:w-[280px] md:h-[200px] group">
             {images.map((image, index) => (
-              <div key={index} className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"}`}>
+              <div
+                key={index}
+                className={`absolute inset-0 transition-transform duration-300 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full"
+                  }`}
+              >
                 <Image
                   src={image}
                   alt={`${car.brand} ${car.model} - View ${index + 1}`}
                   fill
-                  className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+                  className={`absolute inset-0 h-full w-full cursor-pointer object-cover ${currentImage !== index ? "hidden" : ""
+                    }`}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   quality={100}
                   priority
                 />
               </div>
             ))}
+
             <Button
               onClick={handlePrevious}
               variant='ghost'
