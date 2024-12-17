@@ -16,8 +16,22 @@ export const useFavoritesCars = (
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
   const [favorites, setFavorites] = useState<number[]>([])
+  const [toastMessage, setToastMessage] = useState<{
+    title: string
+    description: string
+  } | null>(null)
 
   const { toast } = useToast()
+
+  useEffect(() => {
+    if (toastMessage) {
+      toast({
+        variant: 'default',
+        title: toastMessage.title,
+        description: toastMessage.description
+      })
+    }
+  }, [toastMessage, toast])
 
   useEffect(() => {
     const storedFavorites = JSON.parse(
@@ -25,6 +39,12 @@ export const useFavoritesCars = (
     )
     setFavorites(storedFavorites)
   }, [])
+
+  useEffect(() => {
+    if (favorites.length > 0) {
+      fetchCars()
+    }
+  }, [favorites, currentPage, ITEMS_PER_PAGE])
 
   const fetchCars = useCallback(async () => {
     setLoading(true)
@@ -50,17 +70,28 @@ export const useFavoritesCars = (
     }
   }, [currentPage, ITEMS_PER_PAGE, favorites, toast])
 
-  const toggleFavorite = useCallback((carId: number) => {
-    setFavorites((prevFavorites) => {
-      const isFavorite = prevFavorites.includes(carId)
-      const updatedFavorites = isFavorite
-        ? prevFavorites.filter((id) => id !== carId)
-        : [...prevFavorites, carId]
+  const toggleFavorite = useCallback(
+    (carId: number) => {
+      setFavorites((prevFavorites) => {
+        const isFavorite = prevFavorites.includes(carId)
+        const updatedFavorites = isFavorite
+          ? prevFavorites.filter((id) => id !== carId)
+          : [...prevFavorites, carId]
 
-      localStorage.setItem('favoritos', JSON.stringify(updatedFavorites))
-      return updatedFavorites
-    })
-  }, [])
+        localStorage.setItem('favoritos', JSON.stringify(updatedFavorites))
+
+        setToastMessage({
+          title: isFavorite ? 'Eliminado de favoritos' : 'Agregado a favoritos',
+          description: isFavorite
+            ? `El coche ha sido eliminado de tus favoritos.`
+            : `El coche ha sido agregado a tus favoritos.`
+        })
+
+        return updatedFavorites
+      })
+    },
+    [toast]
+  )
 
   useEffect(() => {
     fetchCars()
