@@ -2,21 +2,20 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react"
+import { ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import { CarData } from "@/types/api"
 import carImage from "@/assets/car-image.png"
 import carImage2 from "@/assets/car-image-2.jpg"
-import { cn } from "@/lib/utils"
 
-interface CardGridItemProps {
+interface CarListItemProps {
   car: CarData
-  toggleFavorite: (carId: number) => void;
-  favorites: number[];
+  toggleFavorite: (carId: number) => void
+  favorites: number[]
 }
 
-export function CarListItem({ car, toggleFavorite, favorites }: CardGridItemProps) {
+export function CarListItem({ car, toggleFavorite, favorites }: CarListItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
   const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
 
@@ -35,12 +34,11 @@ export function CarListItem({ car, toggleFavorite, favorites }: CardGridItemProp
           {images.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"
-                }`}
+              className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"}`}
             >
               <Image
                 src={image}
-                alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                alt={`${car.brand} ${car.model} - Vista ${index + 1}`}
                 fill
                 className="absolute inset-0 h-full w-full cursor-pointer object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -73,10 +71,10 @@ export function CarListItem({ car, toggleFavorite, favorites }: CardGridItemProp
                 key={index}
                 onClick={() => setCurrentImage(index)}
                 className={`h-1.5 w-1.5 rounded-full transition-all ${currentImage === index
-                  ? "w-2.5 bg-white"
-                  : "w-1.5 bg-white/50 hover:bg-white/70"
+                    ? "w-2.5 bg-white"
+                    : "w-1.5 bg-white/50 hover:bg-white/70"
                   }`}
-                aria-label={`View image ${index + 1}`}
+                aria-label={`Ver imagen ${index + 1}`}
               />
             ))}
           </div>
@@ -100,17 +98,16 @@ export function CarListItem({ car, toggleFavorite, favorites }: CardGridItemProp
             {car.year}
           </span>
           <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">
-            {car.mileage.toLocaleString("de-DE")} km
+            {car.mileage.toLocaleString("es-ES")} km
           </span>
         </div>
         <h3 className="font-bold text-sm">
           <span className="mr-1">{car.brand} {car.model}</span>
           <p className="font-medium inline-block">{car.version}</p>
         </h3>
-
         <div>
           <p className="font-medium text-lg text-[#FF7042]">
-            R${car.price.toLocaleString("de-DE")}
+            R${car.price.toLocaleString("es-ES")}
           </p>
           <p className="font-medium text-xs text-[#87899C]">{car.city}</p>
         </div>

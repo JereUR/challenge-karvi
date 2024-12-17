@@ -22,7 +22,18 @@ interface ListCarsProps {
   favorites: number[]
 }
 
-export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, showSortOption, toggleFavorite, favorites }: ListCarsProps) {
+export default function ListCars({
+  cars,
+  loading,
+  totalPages,
+  totalResults,
+  currentPage,
+  gridMode,
+  setGridMode,
+  showSortOption,
+  toggleFavorite,
+  favorites
+}: ListCarsProps) {
   const [currentSort, setCurrentSort] = useState('')
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -88,17 +99,18 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("de-DE")} carros encontrados</p>
+        <p className="text-sm text-[#1B2141]">{totalResults.toLocaleString("es-ES")} carros encontrados</p>
         <div className="flex items-center space-x-2">
           {showSortOption && <SortDropdown currentSort={currentSort} onSortChange={handleSortChange} />}
-          <div
-            className="md:hidden cursor-pointer text-[#87899C]"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-[#87899C]"
             onClick={() => setGridMode(!gridMode)}
-            aria-label="Alternar modo de grilla/lista"
-            data-testid="toggle-button"
+            aria-label={gridMode ? "Cambiar a vista de lista" : "Cambiar a vista de cuadrícula"}
           >
             {gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}
-          </div>
+          </Button>
         </div>
       </div>
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center" : "flex flex-col space-y-4"}>
@@ -110,7 +122,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
           )
         )}
       </div>
-      <div className="flex justify-between items-center gap-2 leading-6 border-t mt-1">
+      <nav className="flex justify-between items-center gap-2 leading-6 border-t mt-1" aria-label="Paginación">
         <Button
           variant="ghost"
           onClick={() => handlePageChange(currentPage - 1)}
@@ -125,8 +137,9 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
             <Button
               variant="ghost"
               key={index}
-              onClick={() => handlePageChange(Number(page))}
-              aria-label={`Página ${page}`}
+              onClick={() => typeof page === 'number' ? handlePageChange(page) : undefined}
+              aria-label={typeof page === 'number' ? `Ir a la página ${page}` : 'Páginas omitidas'}
+              aria-current={page === currentPage ? 'page' : undefined}
               className={`text-base text-gray-400 font-bold rounded-none border-t-2 border-transparent px-3 py-6 hover:bg-background hover:text-gray-500 ${page === currentPage ? "text-primary border-t-2 border-primary" : ""}`}
               disabled={page === "..." || page === currentPage}
             >
@@ -143,8 +156,7 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
         >
           <span className='hidden md:block'>Próximo</span> <ArrowRight className="h-5 w-5" />
         </Button>
-      </div>
+      </nav>
     </div>
   )
 }
-

@@ -9,13 +9,13 @@ import { CalculatorPrice } from '@/utils/icons'
 import carImage from '@/assets/car-image.png'
 import carImage2 from '@/assets/car-image-2.jpg'
 
-interface CardGridItemProps {
+interface CarGridItemProps {
   car: CarData
   toggleFavorite: (carId: number) => void;
   favorites: number[];
 }
 
-export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProps) {
+export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
   const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
 
@@ -36,7 +36,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
               <div key={index} className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"}`}>
                 <Image
                   src={image}
-                  alt={`${car.brand} ${car.model} - View ${index + 1}`}
+                  alt={`${car.brand} ${car.model} - Vista ${index + 1}`}
                   fill
                   className="absolute inset-0 h-full w-full cursor-pointer object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -50,7 +50,6 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
               variant='ghost'
               size='icon'
               aria-label='Foto anterior'
-              data-testid="prev-button"
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronLeft />
@@ -60,7 +59,6 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
               variant='ghost'
               size='icon'
               aria-label='Foto siguiente'
-              data-testid="next-button"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <ChevronRight />
@@ -70,9 +68,8 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
                 <button
                   key={index}
                   onClick={() => setCurrentImage(index)}
-                  data-testid="dot-button"
                   className={`h-2 rounded-full transition-all ${currentImage === index ? "w-4 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
-                  aria-label={`View image ${index + 1}`}
+                  aria-label={`Ver imagen ${index + 1}`}
                 />
               ))}
             </div>
@@ -84,8 +81,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
               onClick={() => toggleFavorite(car.id)}
             >
               <Heart
-                className={`h-4 w-4 ${favorites.includes(car.id) ? "fill-red-600 text-red-600" : ""
-                  }`}
+                className={`h-4 w-4 ${favorites.includes(car.id) ? "fill-red-600 text-red-600" : ""}`}
               />
             </Button>
           </div>
@@ -93,14 +89,14 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CardGridItemProp
         <div className="px-1 py-3 space-y-2 leading-6 text-[#1B2141]">
           <div className="flex gap-3 text-sm text-muted-foreground">
             <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.year}</span>
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("de-DE")} km</span>
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("es-ES")} km</span>
           </div>
           <div>
             <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
             <p className="font-medium">{car.version}</p>
           </div>
           <div>
-            <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("de-DE")}</p>
+            <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("es-ES")}</p>
             <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
           <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70" aria-label='Simular parcelas'>
