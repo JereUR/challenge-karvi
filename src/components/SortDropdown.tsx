@@ -19,8 +19,7 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortC
   ], [])
 
   const currentSortLabel = useMemo(() => {
-    if (!currentSort) return 'Ordenar por'
-    return sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por'
+    return sortOptions.find((option) => option.value === currentSort)?.label || 'Más relevantes'
   }, [currentSort, sortOptions])
 
   return (

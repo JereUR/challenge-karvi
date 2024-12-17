@@ -11,13 +11,6 @@ describe("SortDropdown", () => {
     expect(button).toHaveTextContent('Precio: Más bajo primero')
   })
 
-  it("should display 'Ordenar por' if no currentSort is provided", () => {
-    render(<SortDropdown currentSort="" onSortChange={() => { }} />)
-
-    const button = screen.getByTestId('sortedBy')
-    expect(button).toHaveTextContent('Ordenar por')
-  })
-
   it("should not show the dropdown options by default", () => {
     const currentSort = 'price-asc'
     render(<SortDropdown currentSort={currentSort} onSortChange={() => { }} />)

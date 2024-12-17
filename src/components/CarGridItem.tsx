@@ -102,13 +102,15 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
           </div>
         </div>
         <div className="px-1 py-3 space-y-2 leading-6 text-[#1B2141]">
-          <div className="flex gap-3 text-sm text-muted-foreground">
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.year}</span>
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("de-DE")} km</span>
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
-            <p className="font-medium">{car.version}</p>
+          <div className='space-y-1'>
+            <div className="flex gap-3 text-sm text-muted-foreground">
+              <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.year}</span>
+              <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("de-DE")} km</span>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
+              <p className="font-medium">{car.version}</p>
+            </div>
           </div>
           <div>
             <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("de-DE")}</p>
