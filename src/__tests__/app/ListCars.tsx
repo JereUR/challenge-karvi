@@ -1,23 +1,21 @@
-import ListCars from '@/components/ListCars'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import ListCars from '@/components/ListCars'
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(() => ({
-    replace: jest.fn(),
-    push: jest.fn(),
-  })),
-  useSearchParams: jest.fn(() => new URLSearchParams()),
+  useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
 }))
 
 describe('ListCars Component', () => {
-  const mockRouterReplacePush = jest.fn()
+  const mockRouterPush = jest.fn()
+  const mockSearchParams = new URLSearchParams()
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({
-      replace: mockRouterReplacePush,
-      push: mockRouterReplacePush,
-    })
+      push: mockRouterPush,
+    });
+    (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams)
   })
 
   it('should render loading skeleton when loading is true', () => {
@@ -31,6 +29,8 @@ describe('ListCars Component', () => {
         gridMode={true}
         setGridMode={jest.fn()}
         showSortOption={true}
+        toggleFavorite={jest.fn()}
+        favorites={[]}
       />
     )
     expect(screen.getByTestId('car-grid-skeleton')).toBeInTheDocument()
@@ -47,6 +47,8 @@ describe('ListCars Component', () => {
         gridMode={true}
         setGridMode={jest.fn()}
         showSortOption={true}
+        toggleFavorite={jest.fn()}
+        favorites={[]}
       />
     )
     expect(screen.getByText(/No hay carros para mostrar/i)).toBeInTheDocument()
@@ -76,6 +78,8 @@ describe('ListCars Component', () => {
         gridMode={true}
         setGridMode={jest.fn()}
         showSortOption={true}
+        toggleFavorite={jest.fn()}
+        favorites={[]}
       />
     )
 
@@ -84,6 +88,7 @@ describe('ListCars Component', () => {
 
     fireEvent.click(screen.getByText('2'))
 
-    expect(mockRouterReplacePush).toHaveBeenCalledWith('?page=2')
+    expect(mockRouterPush).toHaveBeenCalledWith('?page=2')
   })
 })
+

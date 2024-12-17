@@ -111,6 +111,7 @@ export default function ListCars({
             size="icon"
             className="md:hidden text-[#87899C]"
             onClick={() => setGridMode(!gridMode)}
+            data-testid="toggle-button"
             aria-label={gridMode ? "Cambiar a vista de lista" : "Cambiar a vista de cuadrícula"}
           >
             {gridMode ? <List className="h-6 w-6" /> : <LayoutGrid className="h-6 w-6" />}

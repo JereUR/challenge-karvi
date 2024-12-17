@@ -41,7 +41,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
               <div key={index} className={`absolute inset-0 transition-transform duration-500 ease-in-out ${currentImage === index ? "translate-x-0" : "translate-x-full hidden"}`}>
                 <Image
                   src={image}
-                  alt={`${car.brand} ${car.model} - Vista ${index + 1}`}
+                  alt={`${car.brand} ${car.model} - View ${index + 1}`}
                   fill
                   className="absolute inset-0 h-full w-full cursor-pointer object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -54,6 +54,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
               onClick={handlePrevious}
               variant='ghost'
               size='icon'
+              data-testid="prev-button"
               aria-label='Foto anterior'
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -63,6 +64,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
               onClick={handleNext}
               variant='ghost'
               size='icon'
+              data-testid="next-button"
               aria-label='Foto siguiente'
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -73,6 +75,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
                 <button
                   key={index}
                   onClick={() => setCurrentImage(index)}
+                  data-testid="dot-button"
                   className={`h-2 rounded-full transition-all ${currentImage === index ? "w-4 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
                   aria-label={`Ver imagen ${index + 1}`}
                 />
@@ -87,6 +90,7 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
             >
               <Heart
                 className={`h-4 w-4 ${isFavorite ? "fill-red-600 text-red-600" : ""}`}
+                data-testid="heart-button"
               />
             </Button>
           </div>
@@ -94,14 +98,14 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
         <div className="px-1 py-3 space-y-2 leading-6 text-[#1B2141]">
           <div className="flex gap-3 text-sm text-muted-foreground">
             <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.year}</span>
-            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("es-ES")} km</span>
+            <span className="py-0.5 px-2 rounded-full bg-[#EBECF5] font-medium">{car.mileage.toLocaleString("de-DE")} km</span>
           </div>
           <div>
             <h3 className="font-bold text-lg">{car.brand} {car.model}</h3>
             <p className="font-medium">{car.version}</p>
           </div>
           <div>
-            <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("es-ES")}</p>
+            <p className="font-medium text-2xl text-[#FF7042]">R${car.price.toLocaleString("de-DE")}</p>
             <p className="font-medium text-sm text-[#87899C]">{car.city}</p>
           </div>
           <Button className="w-full font-bold text-sm rounded-full text-white bg-primary hover:bg-primary/70" aria-label='Simular parcelas'>

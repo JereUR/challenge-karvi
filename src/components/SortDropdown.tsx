@@ -28,6 +28,7 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortC
         <Button
           variant="ghost"
           className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none"
+          data-testid='sortedBy'
           aria-label='Ordenar por'
         >
           <ArrowDownUp />
@@ -41,6 +42,7 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortC
           <DropdownMenuItem
             key={option.value}
             onClick={() => onSortChange(option.value)}
+            data-testid={option.label}
             className={`cursor-pointer transition-colors duration-200 ease-in-out hover:bg-blue-100 hover:text-primary ${currentSort === option.value ? 'font-bold bg-blue-200' : ''}`}
           >
             {option.label}

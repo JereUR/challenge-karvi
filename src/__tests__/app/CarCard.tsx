@@ -1,12 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react"
 import { CarData } from "@/types/api"
-import useFavorite from "@/hooks/useFavorite"
 import { CarGridItem } from "@/components/CarGridItem"
-
-// Mockear el hook useFavorite
-jest.mock("./../../hooks/useFavorite", () => jest.fn())
-
-const mockUseFavorite = useFavorite as jest.MockedFunction<typeof useFavorite>
 
 const car: CarData = {
   "id": 1,
@@ -20,15 +14,11 @@ const car: CarData = {
 }
 
 describe("CarGridItem", () => {
-  beforeEach(() => {
-    mockUseFavorite.mockReturnValue({
-      isFavorite: false,
-      toggleFavorite: jest.fn(),
-    })
-  })
+  const mockToggleFavorite = jest.fn()
+  const favorites: number[] = []
 
-  it("should renders the car details correctly", () => {
-    render(<CarGridItem car={car} />)
+  it("should render the car details correctly", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
     expect(screen.getByText("CHEVROLET ONIX")).toBeInTheDocument()
     expect(screen.getByText("1.0 LT MANUAL")).toBeInTheDocument()
@@ -39,7 +29,7 @@ describe("CarGridItem", () => {
   })
 
   it("should changes images when navigation buttons are clicked", async () => {
-    render(<CarGridItem car={car} />)
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
     const nextButton = await screen.findByTestId('next-button')
     const prevButton = await screen.findByTestId('prev-button')
@@ -55,9 +45,9 @@ describe("CarGridItem", () => {
   })
 
   it("should updates the current image when a dot indicator is clicked", () => {
-    render(<CarGridItem car={car} />)
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
-    const dotButtons = screen.getAllByRole("button", { name: /view image/i })
+    const dotButtons = screen.getAllByRole("button", { name: /Ver imagen/i })
 
     fireEvent.click(dotButtons[1])
 
@@ -65,28 +55,18 @@ describe("CarGridItem", () => {
     expect(images[1]).toBeVisible()
   })
 
-  it("should toggles the favorite state when the heart button is clicked", async () => {
-    const toggleFavoriteMock = jest.fn()
-    mockUseFavorite.mockReturnValue({
-      isFavorite: false,
-      toggleFavorite: toggleFavoriteMock,
-    })
+  it("should toggle the favorite state when the heart button is clicked", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
-    render(<CarGridItem car={car} />)
-
-    const favoriteButton = await screen.findByTestId('heart-button')
+    const favoriteButton = screen.getByLabelText('Agregar a favoritos')
 
     fireEvent.click(favoriteButton)
-    expect(toggleFavoriteMock).toHaveBeenCalled()
+    expect(mockToggleFavorite).toHaveBeenCalledWith(car.id)
   })
 
-  it("shows the heart icon filled when the car is a favorite", () => {
-    mockUseFavorite.mockReturnValue({
-      isFavorite: true,
-      toggleFavorite: jest.fn(),
-    })
-
-    render(<CarGridItem car={car} />)
+  it("should show the heart icon filled when the car is a favorite", () => {
+    const favoriteCar = { ...car, id: 2 }
+    render(<CarGridItem car={favoriteCar} toggleFavorite={mockToggleFavorite} favorites={[2]} />)
 
     const favoriteIcon = screen.getByTestId("heart-button")
 
@@ -95,7 +75,7 @@ describe("CarGridItem", () => {
 
 
   it("should renders the simulate installment button", () => {
-    render(<CarGridItem car={car} />)
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
     expect(screen.getByText('Simular parcelas')).toBeInTheDocument()
   })
