@@ -1,19 +1,11 @@
 import { NextResponse } from 'next/server'
 import axios from 'axios'
 
-import { CarData } from '@/types/api'
+import { CarData, FilterValues } from '@/types/api'
 
-const filterData = (
-  data: CarData[],
-  filters: {
-    marca?: string[]
-    modelo?: string[]
-    ano?: string[]
-    version?: string[]
-    ciudad?: string[]
-  },
-  query: string
-) => {
+const urlApi = process.env.NEXT_PUBLIC_API_URL as string
+
+const filterData = (data: CarData[], filters: FilterValues, query: string) => {
   return data.filter((item) => {
     const matchesQuery =
       !query ||
@@ -25,11 +17,12 @@ const filterData = (
 
     return (
       matchesQuery &&
-      (!filters.marca?.length || filters.marca.includes(item.brand)) &&
-      (!filters.modelo?.length || filters.modelo.includes(item.model)) &&
-      (!filters.ano?.length || filters.ano.includes(item.year.toString())) &&
-      (!filters.version?.length || filters.version.includes(item.version)) &&
-      (!filters.ciudad?.length || filters.ciudad.includes(item.city))
+      (!filters.brands?.length || filters.brands.includes(item.brand)) &&
+      (!filters.models?.length || filters.models.includes(item.model)) &&
+      (!filters.years?.length ||
+        filters.years.includes(item.year.toString())) &&
+      (!filters.versions?.length || filters.versions.includes(item.version)) &&
+      (!filters.cities?.length || filters.cities.includes(item.city))
     )
   })
 }
@@ -50,22 +43,20 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get('page') || '1', 10)
     const itemsPerPage = parseInt(searchParams.get('itemsPerPage') || '12', 10)
     const sortedBy = searchParams.get('sortedBy') || ''
-    const q = searchParams.get('q') || ''
+    const query = searchParams.get('q') || ''
 
-    const filters = {
-      marca: searchParams.getAll('marca[]'),
-      modelo: searchParams.getAll('modelo[]'),
-      ano: searchParams.getAll('ano[]'),
-      version: searchParams.getAll('version[]'),
-      ciudad: searchParams.getAll('ciudad[]')
+    const filters: FilterValues = {
+      brands: searchParams.getAll('marca[]'),
+      models: searchParams.getAll('modelo[]'),
+      years: searchParams.getAll('ano[]'),
+      versions: searchParams.getAll('version[]'),
+      cities: searchParams.getAll('ciudad[]')
     }
 
-    const apiResponse = await axios.get(
-      process.env.NEXT_PUBLIC_API_URL as string
-    )
+    const apiResponse = await axios.get(urlApi)
     const data: CarData[] = apiResponse.data.items
 
-    const filteredData = filterData(data, filters, q)
+    const filteredData = filterData(data, filters, query)
     const sortedData = sortData(filteredData, sortedBy)
 
     const startIndex = (page - 1) * itemsPerPage

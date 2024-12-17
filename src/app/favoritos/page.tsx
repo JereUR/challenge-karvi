@@ -15,13 +15,21 @@ import CarGridSkeleton from "@/components/skeletons/CarGridSkeleton"
 export default function Favorites() {
   const [gridMode, setGridMode] = useGridMode()
 
-  const searchParams = useSearchParams()
-  const currentPage = useMemo(() => parseInt(searchParams.get('page') || '1', 10), [searchParams])
-
-  const { cars, loading, totalPages, totalResults } = useFavoritesCars(currentPage, ITEMS_PER_PAGE)
-
   return (
     <main className="flex min-h-screen flex-col space-y-2 md:space-y-3">
+      <FavoritesHeader />
+      <div className="mx-auto flex flex-col gap-4">
+        <Suspense fallback={<CarGridSkeleton />}>
+          <FavoritesList gridMode={gridMode} setGridMode={setGridMode} />
+        </Suspense>
+      </div>
+    </main>
+  )
+}
+
+function FavoritesHeader() {
+  return (
+    <>
       <div className="sm:hidden">
         <Link href='/' className="block px-8 mt-2">
           <Button
@@ -49,21 +57,32 @@ export default function Favorites() {
           </Button>
         </Link>
       </div>
-      <div className="mx-auto flex flex-col gap-4">
-        <Suspense fallback={<CarGridSkeleton />}>
-          <ListCars
-            cars={cars}
-            loading={loading}
-            totalPages={totalPages}
-            totalResults={totalResults}
-            currentPage={currentPage}
-            gridMode={gridMode}
-            setGridMode={setGridMode}
-            showSortOption={false}
-          />
-        </Suspense>
-      </div>
-    </main>
+    </>
   )
 }
 
+interface FavoriteListProps {
+  gridMode: boolean
+  setGridMode: (gridMode: boolean) => void
+}
+
+function FavoritesList({ gridMode, setGridMode }: FavoriteListProps) {
+  const searchParams = useSearchParams()
+  const currentPage = useMemo(() => parseInt(searchParams.get('page') || '1', 10), [searchParams])
+  const { cars, loading, totalPages, totalResults, toggleFavorite, favorites } = useFavoritesCars(currentPage, ITEMS_PER_PAGE)
+
+  return (
+    <ListCars
+      cars={cars}
+      loading={loading}
+      totalPages={totalPages}
+      totalResults={totalResults}
+      currentPage={currentPage}
+      gridMode={gridMode}
+      setGridMode={setGridMode}
+      showSortOption={false}
+      toggleFavorite={toggleFavorite}
+      favorites={favorites}
+    />
+  )
+}

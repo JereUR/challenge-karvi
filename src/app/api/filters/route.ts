@@ -8,12 +8,14 @@ import {
   FilterWithMatch
 } from '@/types/api'
 
+const urlApi = process.env.NEXT_PUBLIC_API_URL as string
+
 function calculateMatches(
   items: CarData[],
   filters: AvailableFilter[],
   key: keyof CarData
 ): FilterWithMatch[] {
-  const counts = items.reduce<Record<string | number, number>>((acc, item) => {
+  const matches = items.reduce<Record<string | number, number>>((acc, item) => {
     const value = item[key]
     acc[value] = (acc[value] || 0) + 1
     return acc
@@ -21,13 +23,13 @@ function calculateMatches(
 
   return filters.map((filter) => ({
     ...filter,
-    match: counts[filter.id] || 0
+    match: matches[filter.id] || 0
   }))
 }
 
 export async function GET() {
   try {
-    const response = await axios.get(process.env.NEXT_PUBLIC_API_URL as string)
+    const response = await axios.get(urlApi)
     const data = response.data
 
     const items: CarData[] = data.items

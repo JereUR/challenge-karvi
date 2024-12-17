@@ -3,7 +3,9 @@ import axios from 'axios'
 
 import { CarData } from '@/types/api'
 
-const filterData = (data: CarData[], ids: string[]) => {
+const urlApi = process.env.NEXT_PUBLIC_API_URL as string
+
+const getFavoritesById = (data: CarData[], ids: string[]) => {
   return data.filter((item) => {
     return ids.includes(item.id.toString())
   })
@@ -16,25 +18,19 @@ export async function GET(request: Request) {
     const itemsPerPage = parseInt(searchParams.get('itemsPerPage') || '12', 10)
     const ids = searchParams.getAll('ids[]')
 
-    console.log({ ids })
+    const apiResponse = await axios.get(urlApi)
 
-    const apiResponse = await axios.get(
-      process.env.NEXT_PUBLIC_API_URL as string
-    )
     const data: CarData[] = apiResponse.data.items
 
-    const filteredData = filterData(data, ids)
+    const favorites = getFavoritesById(data, ids)
 
     const startIndex = (page - 1) * itemsPerPage
-    const paginatedData = filteredData.slice(
-      startIndex,
-      startIndex + itemsPerPage
-    )
+    const paginatedData = favorites.slice(startIndex, startIndex + itemsPerPage)
 
     return NextResponse.json({
       page,
-      totalItems: filteredData.length,
-      totalPages: Math.ceil(filteredData.length / itemsPerPage),
+      totalItems: favorites.length,
+      totalPages: Math.ceil(favorites.length / itemsPerPage),
       items: paginatedData
     })
   } catch (error) {

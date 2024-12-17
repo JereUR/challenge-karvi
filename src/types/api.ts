@@ -28,4 +28,12 @@ export interface AllFilters {
   years: FilterWithMatch[]
 }
 
+export interface FilterValues {
+  brands: string[]
+  cities: string[]
+  models: string[]
+  versions: string[]
+  years: string[]
+}
+
 export const ITEMS_PER_PAGE = 12
