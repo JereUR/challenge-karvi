@@ -18,9 +18,10 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortC
     { label: 'Precio: Más alto primero', value: 'price-desc' },
   ], [])
 
-  const currentSortLabel = useMemo(() =>
-    sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por',
-    [currentSort, sortOptions])
+  const currentSortLabel = useMemo(() => {
+    if (!currentSort) return 'Ordenar por'
+    return sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por'
+  }, [currentSort, sortOptions])
 
   return (
     <DropdownMenu>
@@ -43,6 +44,7 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortC
             key={option.value}
             onClick={() => onSortChange(option.value)}
             data-testid={option.label}
+            role="menuitem"
             className={`cursor-pointer transition-colors duration-200 ease-in-out hover:bg-blue-100 hover:text-primary ${currentSort === option.value ? 'font-bold bg-blue-200' : ''}`}
           >
             {option.label}

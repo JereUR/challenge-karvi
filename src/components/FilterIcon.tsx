@@ -25,6 +25,7 @@ export default function FilterIcon() {
         <SlidersVertical />Filtrar
       </Button>
       <div
+        data-testid={isOpen ? "filter-panel" : "filter-selector"}
         className={cn(
           "fixed inset-y-0 h-screen left-0 w-full sm:w-80 bg-background shadow-lg z-[201] overflow-y-auto transition-transform duration-300 ease-in-out transform",
           isOpen ? 'translate-x-0' : '-translate-x-full',

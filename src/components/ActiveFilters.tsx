@@ -60,6 +60,7 @@ export function ActiveFilters() {
             <button
               onClick={() => removeFilter(key, value)}
               aria-label='Eliminar filtro'
+              data-testid={`delete ${value}`}
               className="ml-2"
             >
               <X className="h-4 w-4 transition-transform cursor-pointer duration-100 ease-in-out hover:scale-110" />

@@ -55,6 +55,59 @@ describe("CarGridItem", () => {
     expect(images[1]).toBeVisible()
   })
 
+  it("should display the first image as default", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
+
+    const images = screen.getAllByAltText(/CHEVROLET ONIX/i)
+
+    expect(images[0]).toBeVisible()
+
+    for (let i = 1; i < images.length; i++) {
+      expect(images[i]).toHaveClass('hidden')
+    }
+  })
+
+  it("should navigate cyclically through the images", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
+
+    const nextButton = screen.getByTestId('next-button')
+    const prevButton = screen.getByTestId('prev-button')
+
+    const images = screen.getAllByAltText(/CHEVROLET ONIX/i)
+
+    for (let i = 0; i < images.length; i++) {
+      fireEvent.click(nextButton)
+    }
+    expect(images[0]).toBeVisible()
+
+    for (let i = 0; i < images.length; i++) {
+      fireEvent.click(prevButton)
+    }
+    expect(images[images.length - 1]).toBeVisible()
+  })
+
+  it("should have accessible navigation buttons", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
+
+    const prevButton = screen.getByLabelText('Foto anterior')
+    const nextButton = screen.getByLabelText('Foto siguiente')
+
+    expect(prevButton).toBeInTheDocument()
+    expect(nextButton).toBeInTheDocument()
+  })
+
+  it("should update aria-label of heart button based on favorite state", () => {
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
+
+    const favoriteButton = screen.getByLabelText('Agregar a favoritos')
+    expect(favoriteButton).toBeInTheDocument()
+
+    fireEvent.click(favoriteButton)
+
+    render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={[car.id]} />)
+    expect(screen.getByLabelText('Eliminar de favoritos')).toBeInTheDocument()
+  })
+
   it("should toggle the favorite state when the heart button is clicked", () => {
     render(<CarGridItem car={car} toggleFavorite={mockToggleFavorite} favorites={favorites} />)
 
