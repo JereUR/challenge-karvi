@@ -7,8 +7,12 @@ import { useDebounce } from '@/hooks/useDebounce'
 export function useSearchLogic(initialSearchTerm: string) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const initialQuery = searchParams.get('q') || ''
+  const [searchTerm, setSearchTerm] = useState<string>(
+    initialQuery || initialSearchTerm
+  )
+
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm)
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const inputRef = useRef<HTMLInputElement>(null)
   const exitButtonRef = useRef<HTMLButtonElement>(null)
@@ -50,6 +54,7 @@ export function useSearchLogic(initialSearchTerm: string) {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      event.preventDefault()
       const params = new URLSearchParams(searchParams)
       if (searchTerm) {
         params.set('q', searchTerm)
