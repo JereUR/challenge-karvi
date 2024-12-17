@@ -15,42 +15,56 @@ export const useFavoritesCars = (
   const [loading, setLoading] = useState(true)
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
+  const [favorites, setFavorites] = useState<number[]>([])
 
   const { toast } = useToast()
 
-  const getFavoriteIds = useCallback(() => {
-    return JSON.parse(localStorage.getItem('favoritos') || '[]')
+  useEffect(() => {
+    const storedFavorites = JSON.parse(
+      localStorage.getItem('favoritos') || '[]'
+    )
+    setFavorites(storedFavorites)
   }, [])
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      setLoading(true)
-      try {
-        const ids = getFavoriteIds()
-        const data = await getFavorites(currentPage, ITEMS_PER_PAGE, ids)
+  const fetchCars = useCallback(async () => {
+    setLoading(true)
+    try {
+      const ids = favorites
+      const data = await getFavorites(currentPage, ITEMS_PER_PAGE, ids)
 
-        setCars(data.items)
-        setTotalPages(data.totalPages)
-        setTotalResults(data.totalItems)
-      } catch (err: unknown) {
-        const errorMessage = axios.isAxiosError(err)
-          ? err.response?.data ||
-            err.message ||
-            'Ocurrió un problema inesperado'
-          : 'Ocurrió un error desconocido'
+      setCars(data.items)
+      setTotalPages(data.totalPages)
+      setTotalResults(data.totalItems)
+    } catch (err: unknown) {
+      const errorMessage = axios.isAxiosError(err)
+        ? err.response?.data || err.message || 'Ocurrió un problema inesperado'
+        : 'Ocurrió un error desconocido'
 
-        toast({
-          variant: 'destructive',
-          title: 'Error al cargar los datos',
-          description: errorMessage
-        })
-      } finally {
-        setLoading(false)
-      }
+      toast({
+        variant: 'destructive',
+        title: 'Error al cargar los datos',
+        description: errorMessage
+      })
+    } finally {
+      setLoading(false)
     }
+  }, [currentPage, ITEMS_PER_PAGE, favorites, toast])
 
+  const toggleFavorite = (carId: number) => {
+    setFavorites((prevFavorites) => {
+      const isFavorite = prevFavorites.includes(carId)
+      const updatedFavorites = isFavorite
+        ? prevFavorites.filter((id) => id !== carId)
+        : [...prevFavorites, carId]
+
+      localStorage.setItem('favoritos', JSON.stringify(updatedFavorites))
+      return updatedFavorites
+    })
+  }
+
+  useEffect(() => {
     fetchCars()
-  }, [currentPage, ITEMS_PER_PAGE, getFavoriteIds, toast])
+  }, [fetchCars])
 
-  return { cars, loading, totalPages, totalResults }
+  return { cars, loading, totalPages, totalResults, favorites, toggleFavorite }
 }

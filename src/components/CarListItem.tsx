@@ -8,18 +8,17 @@ import { Button } from "@/components/ui/button"
 import { CarData } from "@/types/api"
 import carImage from "@/assets/car-image.png"
 import carImage2 from "@/assets/car-image-2.jpg"
-import useFavorite from "@/hooks/useFavorite"
 import { cn } from "@/lib/utils"
 
 interface CardGridItemProps {
   car: CarData
+  toggleFavorite: (carId: number) => void;
+  favorites: number[];
 }
 
-export function CarListItem({ car }: CardGridItemProps) {
+export function CarListItem({ car, toggleFavorite, favorites }: CardGridItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
   const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
-
-  const { isFavorite, toggleFavorite } = useFavorite(car.id)
 
   const handlePrevious = () => {
     setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1))
@@ -84,14 +83,14 @@ export function CarListItem({ car }: CardGridItemProps) {
           <Button
             variant="ghost"
             size="icon"
-            aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
+            aria-label={favorites.includes(car.id) ? "Eliminar de favoritos" : "Agregar a favoritos"}
             className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
-            onClick={toggleFavorite}
+            onClick={() => toggleFavorite(car.id)}
           >
-            <Heart className={cn(
-              "h-4 w-4",
-              isFavorite && "fill-red-600 text-red-600",
-            )} />
+            <Heart
+              className={`h-4 w-4 ${favorites.includes(car.id) ? "fill-red-600 text-red-600" : ""
+                }`}
+            />
           </Button>
         </div>
       </div>

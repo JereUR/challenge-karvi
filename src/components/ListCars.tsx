@@ -18,9 +18,11 @@ interface ListCarsProps {
   gridMode: boolean
   setGridMode: (value: boolean) => void
   showSortOption: boolean
+  toggleFavorite: (carId: number) => void
+  favorites: number[]
 }
 
-export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, showSortOption }: ListCarsProps) {
+export default function ListCars({ cars, loading, totalPages, totalResults, currentPage, gridMode, setGridMode, showSortOption, toggleFavorite, favorites }: ListCarsProps) {
   const [currentSort, setCurrentSort] = useState('')
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -102,9 +104,9 @@ export default function ListCars({ cars, loading, totalPages, totalResults, curr
       <div className={gridMode ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center" : "flex flex-col space-y-4"}>
         {cars.map((car) =>
           gridMode ? (
-            <CarGridItem key={car.id} car={car} />
+            <CarGridItem key={car.id} car={car} toggleFavorite={toggleFavorite} favorites={favorites} />
           ) : (
-            <CarListItem key={car.id} car={car} />
+            <CarListItem key={car.id} car={car} toggleFavorite={toggleFavorite} favorites={favorites} />
           )
         )}
       </div>
