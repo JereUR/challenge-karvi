@@ -1,20 +1,22 @@
-import { ArrowLeft, ArrowRight, LayoutGrid, List } from 'lucide-react'
+'use client'
+
+import React, { useState, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ArrowLeft, ArrowRight, LayoutGrid, List } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { CarGridItem } from './CarGridItem'
 import { CarListItem } from './CarListItem'
 import { CarData } from '@/types/api'
-import { useState } from 'react'
 import { SortDropdown } from './SortDropdown'
 import CarGridSkeleton from './skeletons/CarGridSkeleton'
 
 interface ListCarsProps {
-  cars: CarData[],
-  loading: boolean,
-  totalPages: number,
-  totalResults: number,
-  currentPage: number,
+  cars: CarData[]
+  loading: boolean
+  totalPages: number
+  totalResults: number
+  currentPage: number
   gridMode: boolean
   setGridMode: (value: boolean) => void
   showSortOption: boolean
@@ -38,15 +40,15 @@ export default function ListCars({
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = useCallback((newPage: number) => {
     if (newPage > 0 && newPage <= totalPages && newPage !== currentPage) {
       const params = new URLSearchParams(searchParams.toString())
       params.set('page', newPage.toString())
       router.push(`?${params.toString()}`)
     }
-  }
+  }, [currentPage, router, searchParams, totalPages])
 
-  const handleSortChange = (newSort: string) => {
+  const handleSortChange = useCallback((newSort: string) => {
     setCurrentSort(newSort)
     const params = new URLSearchParams(searchParams.toString())
     if (newSort) {
@@ -56,9 +58,9 @@ export default function ListCars({
     }
     params.set('page', '1')
     router.push(`?${params.toString()}`)
-  }
+  }, [router, searchParams])
 
-  const generatePageNumbers = () => {
+  const generatePageNumbers = useCallback(() => {
     const pages = []
     const maxVisiblePages = 8
 
@@ -86,7 +88,9 @@ export default function ListCars({
     }
 
     return pages
-  }
+  }, [currentPage, totalPages])
+
+  const pageNumbers = useMemo(() => generatePageNumbers(), [generatePageNumbers])
 
   if (loading) return <CarGridSkeleton />
 
@@ -133,7 +137,7 @@ export default function ListCars({
           <ArrowLeft /> <span className='hidden md:block'>Anterior</span>
         </Button>
         <div className="flex gap-2">
-          {generatePageNumbers().map((page, index) => (
+          {pageNumbers.map((page, index) => (
             <Button
               variant="ghost"
               key={index}

@@ -5,10 +5,8 @@ import { CarData } from '@/types/api'
 
 const urlApi = process.env.NEXT_PUBLIC_API_URL as string
 
-const getFavoritesById = (data: CarData[], ids: string[]) => {
-  return data.filter((item) => {
-    return ids.includes(item.id.toString())
-  })
+const getFavoritesById = (data: CarData[], ids: string[]): CarData[] => {
+  return data.filter((item) => ids.includes(item.id.toString()))
 }
 
 export async function GET(request: Request) {
@@ -19,7 +17,6 @@ export async function GET(request: Request) {
     const ids = searchParams.getAll('ids[]')
 
     const apiResponse = await axios.get(urlApi)
-
     const data: CarData[] = apiResponse.data.items
 
     const favorites = getFavoritesById(data, ids)
@@ -34,9 +31,9 @@ export async function GET(request: Request) {
       items: paginatedData
     })
   } catch (error) {
-    console.error('Error al obtener los datos:', error)
+    console.error('Error fetching favorites:', error)
     return NextResponse.json(
-      { error: 'Error al obtener los datos. Por favor intente nuevamente.' },
+      { error: 'Error fetching favorites. Please try again.' },
       { status: 500 }
     )
   }

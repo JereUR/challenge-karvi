@@ -1,5 +1,7 @@
 'use client'
 
+import * as React from 'react'
+import { useCallback, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 
 import { useFilters } from '@/hooks/useFilters'
@@ -17,7 +19,7 @@ export function FilterSelector() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const updateFilter = (key: string, value: string) => {
+  const updateFilter = useCallback((key: string, value: string) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()))
     const currentValues = current.getAll(key)
 
@@ -32,17 +34,13 @@ export function FilterSelector() {
     const search = current.toString()
     const query = search ? `?${search}` : ""
     router.replace(`${window.location.pathname}${query}`, { scroll: false })
-  }
+  }, [searchParams, router])
 
-  const getSelectedmatch = (key: string) => {
+  const getSelectedMatch = useCallback((key: string) => {
     return searchParams.getAll(key).length
-  }
+  }, [searchParams])
 
-  if (loading) {
-    return <FilterSelectorSkeleton />
-  }
-
-  const renderFilterOptions = (
+  const renderFilterOptions = useCallback((
     options: FilterWithMatch[],
     filterKey: string
   ) => {
@@ -52,7 +50,9 @@ export function FilterSelector() {
         {options.map((option) => (
           <button
             key={option.id}
-            className={`w-full text-left py-1 hover:text-primary ${selectedValues.includes(option.id) || selectedValues.includes(option.name.toString()) ? 'text-primary font-semibold' : ''
+            className={`w-full text-left py-1 hover:text-primary ${selectedValues.includes(option.id) || selectedValues.includes(option.name.toString())
+                ? 'text-primary font-semibold'
+                : ''
               }`}
             aria-label={`${option.name}`}
             onClick={() => updateFilter(filterKey, option.id)}
@@ -65,22 +65,22 @@ export function FilterSelector() {
         ))}
       </div>
     )
-  }
+  }, [searchParams, updateFilter])
 
-  const renderAccordionItem = (
+  const renderAccordionItem = useCallback((
     value: string,
     label: string,
     options: FilterWithMatch[],
     filterKey: string
   ) => {
-    const selectedmatch = getSelectedmatch(filterKey)
+    const selectedMatch = getSelectedMatch(filterKey)
     return (
       <AccordionItem value={value} className="border-b">
         <AccordionTrigger className="flex justify-between px-4 py-3 text-lg text-[#1B2141] hover:no-underline">
-          <span className=' font-bold'>{label}</span>
-          {selectedmatch > 0 && (
+          <span className='font-bold'>{label}</span>
+          {selectedMatch > 0 && (
             <span className="font-medium text-sm text-primary">
-              ({selectedmatch})
+              ({selectedMatch})
             </span>
           )}
         </AccordionTrigger>
@@ -89,41 +89,30 @@ export function FilterSelector() {
         </AccordionContent>
       </AccordionItem>
     )
+  }, [getSelectedMatch, renderFilterOptions])
+
+  const accordionItems = useMemo(() => [
+    { value: "marca", label: "Marca", options: brands, filterKey: "marca" },
+    { value: "modelo", label: "Modelo", options: models, filterKey: "modelo" },
+    { value: "ano", label: "Año", options: years.map(year => ({ ...year, id: year.id.toString(), name: year.name.toString() })), filterKey: "ano" },
+    { value: "version", label: "Version", options: versions, filterKey: "version" },
+    { value: "ciudad", label: "Ciudad", options: cities, filterKey: "ciudad" },
+  ], [brands, cities, models, years, versions])
+
+  if (loading) {
+    return <FilterSelectorSkeleton />
   }
 
   return (
-    <div className="w-full max-w-sm ">
+    <div className="w-full max-w-sm">
       <Accordion type="multiple" className="w-full">
-        {renderAccordionItem("marca", "Marca", brands.map((brand) => ({
-          id: brand.id,
-          name: brand.name,
-          match: brand.match
-        })), "marca")}
-
-        {renderAccordionItem("modelo", "Modelo", models.map((model) => ({
-          id: model.id,
-          name: model.name,
-          match: model.match
-        })), "modelo")}
-
-        {renderAccordionItem("ano", "Año", years.map((year) => ({
-          id: year.id.toString(),
-          name: year.name.toString(),
-          match: year.match
-        })), "ano")}
-
-        {renderAccordionItem("version", "Version", versions.map((version) => ({
-          id: version.id,
-          name: version.name,
-          match: version.match
-        })), "version")}
-
-        {renderAccordionItem("ciudad", "Ciudad", cities.map((city) => ({
-          id: city.id,
-          name: city.name,
-          match: city.match
-        })), "ciudad")}
+        {accordionItems.map(item => (
+          <React.Fragment key={item.value}>
+            {renderAccordionItem(item.value, item.label, item.options, item.filterKey)}
+          </React.Fragment>
+        ))}
       </Accordion>
     </div>
   )
 }
+

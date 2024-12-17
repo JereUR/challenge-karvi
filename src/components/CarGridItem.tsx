@@ -1,4 +1,6 @@
-import { useState } from 'react'
+'use client'
+
+import React, { useState, useCallback } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 
@@ -11,21 +13,24 @@ import carImage2 from '@/assets/car-image-2.jpg'
 
 interface CarGridItemProps {
   car: CarData
-  toggleFavorite: (carId: number) => void;
-  favorites: number[];
+  toggleFavorite: (carId: number) => void
+  favorites: number[]
 }
+
+const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
 
 export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps) {
   const [currentImage, setCurrentImage] = useState(0)
-  const images = Array.from({ length: 5 }, (_, index) => (index % 2 === 0 ? carImage : carImage2))
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-  }
+  }, [])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-  }
+  }, [])
+
+  const isFavorite = favorites.includes(car.id)
 
   return (
     <Card className="overflow-hidden shadow-md w-[90vw] md:w-[300px] mx-auto">
@@ -76,12 +81,12 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
             <Button
               variant="ghost"
               size="icon"
-              aria-label={favorites.includes(car.id) ? "Eliminar de favoritos" : "Agregar a favoritos"}
+              aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
               className="absolute top-2 right-2 text-gray-400 bg-white rounded-full hover:text-gray-500 z-10"
               onClick={() => toggleFavorite(car.id)}
             >
               <Heart
-                className={`h-4 w-4 ${favorites.includes(car.id) ? "fill-red-600 text-red-600" : ""}`}
+                className={`h-4 w-4 ${isFavorite ? "fill-red-600 text-red-600" : ""}`}
               />
             </Button>
           </div>
@@ -107,3 +112,4 @@ export function CarGridItem({ car, toggleFavorite, favorites }: CarGridItemProps
     </Card>
   )
 }
+

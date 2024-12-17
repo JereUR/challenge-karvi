@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
 
 import { useToast } from '@/hooks/use-toast'
-import { getAllFilters } from '@/utils/getFilters'
+import { getAllFilters } from '@/utils/getAllFilters'
 import { AllFilters } from '@/types/api'
 
 export const useFilters = () => {
@@ -16,27 +18,27 @@ export const useFilters = () => {
 
   const { toast } = useToast()
 
-  useEffect(() => {
-    const fetchFilters = async () => {
-      setLoading(true)
-      try {
-        const allFilters = await getAllFilters()
-        setFilters(allFilters)
-      } catch (error) {
-        console.error('Error al obtener los filtros:', error)
-        toast({
-          variant: 'destructive',
-          title: 'Error al cargar los filtros',
-          description:
-            'Ocurrió un problema al obtener los filtros. Por favor, intenta de nuevo más tarde.'
-        })
-      } finally {
-        setLoading(false)
-      }
+  const fetchFilters = useCallback(async () => {
+    setLoading(true)
+    try {
+      const allFilters = await getAllFilters()
+      setFilters(allFilters)
+    } catch (error) {
+      console.error('Error al obtener los filtros:', error)
+      toast({
+        variant: 'destructive',
+        title: 'Error al cargar los filtros',
+        description:
+          'Ocurrió un problema al obtener los filtros. Por favor, intenta de nuevo más tarde.'
+      })
+    } finally {
+      setLoading(false)
     }
-
-    fetchFilters()
   }, [toast])
+
+  useEffect(() => {
+    fetchFilters()
+  }, [fetchFilters])
 
   return { ...filters, loading }
 }

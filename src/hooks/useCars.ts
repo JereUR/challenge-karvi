@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
 
@@ -35,40 +35,38 @@ export const useCars = (currentPage: number, ITEMS_PER_PAGE: number) => {
 
   const q = useMemo(() => searchParams.get('q') || '', [searchParams])
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      setLoading(true)
-      try {
-        const data = await getResults(
-          currentPage,
-          ITEMS_PER_PAGE,
-          filters,
-          sortedBy,
-          q
-        )
+  const fetchCars = useCallback(async () => {
+    setLoading(true)
+    try {
+      const data = await getResults(
+        currentPage,
+        ITEMS_PER_PAGE,
+        filters,
+        sortedBy,
+        q
+      )
 
-        setCars(data.items)
-        setTotalPages(data.totalPages)
-        setTotalResults(data.totalItems)
-      } catch (err: unknown) {
-        const errorMessage = axios.isAxiosError(err)
-          ? err.response?.data ||
-            err.message ||
-            'Ocurrió un problema inesperado'
-          : 'Ocurrió un error desconocido'
+      setCars(data.items)
+      setTotalPages(data.totalPages)
+      setTotalResults(data.totalItems)
+    } catch (err: unknown) {
+      const errorMessage = axios.isAxiosError(err)
+        ? err.response?.data || err.message || 'Ocurrió un problema inesperado'
+        : 'Ocurrió un error desconocido'
 
-        toast({
-          variant: 'destructive',
-          title: 'Error al cargar los datos',
-          description: errorMessage
-        })
-      } finally {
-        setLoading(false)
-      }
+      toast({
+        variant: 'destructive',
+        title: 'Error al cargar los datos',
+        description: errorMessage
+      })
+    } finally {
+      setLoading(false)
     }
+  }, [currentPage, ITEMS_PER_PAGE, filters, sortedBy, q, toast])
 
+  useEffect(() => {
     fetchCars()
-  }, [currentPage, ITEMS_PER_PAGE, filters, toast])
+  }, [fetchCars])
 
   return { cars, loading, totalPages, totalResults }
 }

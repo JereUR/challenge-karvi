@@ -1,18 +1,28 @@
 import axios from 'axios'
+import { CarData } from '@/types/api'
+
+interface Filters {
+  modelo?: string[]
+  marca?: string[]
+  ano?: string[]
+  version?: string[]
+  ciudad?: string[]
+}
+
+interface ResultsResponse {
+  page: number
+  totalItems: number
+  totalPages: number
+  items: CarData[]
+}
 
 export const getResults = async (
   currentPage: number,
   ITEMS_PER_PAGE: number,
-  filters: {
-    modelo?: string[]
-    marca?: string[]
-    ano?: string[]
-    version?: string[]
-    ciudad?: string[]
-  },
+  filters: Filters,
   sortedBy: string,
   q: string
-) => {
+): Promise<ResultsResponse> => {
   const params = {
     page: currentPage,
     itemsPerPage: ITEMS_PER_PAGE,
@@ -22,9 +32,10 @@ export const getResults = async (
   }
 
   try {
-    const response = await axios.get('/api/cars', { params })
+    const response = await axios.get<ResultsResponse>('/api/cars', { params })
     return response.data
   } catch (err) {
+    console.error('Error fetching results:', err)
     throw err
   }
 }

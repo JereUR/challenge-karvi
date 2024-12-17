@@ -50,7 +50,7 @@ export const useFavoritesCars = (
     }
   }, [currentPage, ITEMS_PER_PAGE, favorites, toast])
 
-  const toggleFavorite = (carId: number) => {
+  const toggleFavorite = useCallback((carId: number) => {
     setFavorites((prevFavorites) => {
       const isFavorite = prevFavorites.includes(carId)
       const updatedFavorites = isFavorite
@@ -60,7 +60,7 @@ export const useFavoritesCars = (
       localStorage.setItem('favoritos', JSON.stringify(updatedFavorites))
       return updatedFavorites
     })
-  }
+  }, [])
 
   useEffect(() => {
     fetchCars()

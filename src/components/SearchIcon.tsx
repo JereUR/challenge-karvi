@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { Search, X } from 'lucide-react'
 
 import { Button } from './ui/button'
@@ -31,11 +32,9 @@ export default function SearchIcon() {
         onClick={handleToggle}
       >
         <Search className="h-5 w-5" />
-        {searchTerm === '' ? (
-          <span>Buscar</span>
-        ) : (
-          <span className="truncate max-w-[140px] md:max-w-[250px]">{searchTerm}</span>
-        )}
+        <span className="truncate max-w-[140px] md:max-w-[250px]">
+          {searchTerm || 'Buscar'}
+        </span>
       </Button>
       <div
         className={cn(
@@ -68,3 +67,4 @@ export default function SearchIcon() {
     </div>
   )
 }
+

@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import { AllFilters } from '@/types/api'
 
 export async function getAllFilters(): Promise<AllFilters> {
@@ -7,7 +6,7 @@ export async function getAllFilters(): Promise<AllFilters> {
     const response = await axios.get<AllFilters>('/api/filters')
     return response.data
   } catch (error) {
-    console.error('Error al obtener los filtros:', error)
+    console.error('Error fetching filters:', error)
     throw error
   }
 }

@@ -45,9 +45,9 @@ export async function GET() {
 
     return NextResponse.json(result)
   } catch (error) {
-    console.error('Error al obtener los filtros:', error)
+    console.error('Error fetching filters:', error)
     return NextResponse.json(
-      { error: 'Error al obtener los filtros' },
+      { error: 'Error fetching filters' },
       { status: 500 }
     )
   }

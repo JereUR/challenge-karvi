@@ -26,7 +26,7 @@ function CarGridItemSkeleton() {
       <div className="p-3 pb-1">
         <div className="flex justify-center">
           <div className="relative overflow-hidden rounded-md w-[320px] h-[220px] md:w-[280px] md:h-[200px]">
-            <Skeleton className="w-72 h-48 rounded-md" />
+            <Skeleton className="w-80 md:w-72 h-48 rounded-md" />
             <Skeleton className="absolute top-2 right-2 h-8 w-8 rounded-full" />
           </div>
         </div>

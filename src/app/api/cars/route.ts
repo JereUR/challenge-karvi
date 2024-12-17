@@ -5,7 +5,11 @@ import { CarData, FilterValues } from '@/types/api'
 
 const urlApi = process.env.NEXT_PUBLIC_API_URL as string
 
-const filterData = (data: CarData[], filters: FilterValues, query: string) => {
+const filterData = (
+  data: CarData[],
+  filters: FilterValues,
+  query: string
+): CarData[] => {
   return data.filter((item) => {
     const matchesQuery =
       !query ||
@@ -27,12 +31,12 @@ const filterData = (data: CarData[], filters: FilterValues, query: string) => {
   })
 }
 
-const sortData = (data: CarData[], sortedBy: string) => {
+const sortData = (data: CarData[], sortedBy: string): CarData[] => {
   if (sortedBy === 'price-asc') {
-    return data.sort((a, b) => a.price - b.price)
+    return [...data].sort((a, b) => a.price - b.price)
   }
   if (sortedBy === 'price-desc') {
-    return data.sort((a, b) => b.price - a.price)
+    return [...data].sort((a, b) => b.price - a.price)
   }
   return data
 }
@@ -72,9 +76,9 @@ export async function GET(request: Request) {
       items: paginatedData
     })
   } catch (error) {
-    console.error('Error al obtener los datos:', error)
+    console.error('Error fetching data:', error)
     return NextResponse.json(
-      { error: 'Error al obtener los datos. Por favor intente nuevamente.' },
+      { error: 'Error fetching data. Please try again.' },
       { status: 500 }
     )
   }

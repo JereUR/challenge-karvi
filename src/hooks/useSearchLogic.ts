@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebounce } from '@/hooks/useDebounce'
 
@@ -45,35 +45,38 @@ export function useSearchLogic(initialSearchTerm: string) {
     }
   }, [])
 
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded)
+  const handleToggle = useCallback(() => {
+    setIsExpanded((prev) => !prev)
     if (!isExpanded) {
       setTimeout(() => inputRef.current?.focus(), 100)
     }
-  }
+  }, [isExpanded])
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      const params = new URLSearchParams(searchParams)
-      if (searchTerm) {
-        params.set('q', searchTerm)
-      } else {
-        params.delete('q')
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        const params = new URLSearchParams(searchParams)
+        if (searchTerm) {
+          params.set('q', searchTerm)
+        } else {
+          params.delete('q')
+        }
+        router.push(`?${params.toString()}`)
+        setIsExpanded(false)
+        inputRef.current?.blur()
       }
-      router.push(`?${params.toString()}`)
-      setIsExpanded(false)
-      inputRef.current?.blur()
-    }
-  }
+    },
+    [router, searchParams, searchTerm]
+  )
 
-  const handleExit = () => {
+  const handleExit = useCallback(() => {
     const params = new URLSearchParams(searchParams?.toString() || '')
     params.delete('q')
     router.replace(`?${params.toString()}`)
     setSearchTerm('')
     setIsExpanded(false)
-  }
+  }, [router, searchParams])
 
   return {
     isExpanded,

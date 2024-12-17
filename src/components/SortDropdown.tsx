@@ -1,4 +1,7 @@
-import { ArrowDownUp, } from 'lucide-react'
+'use client'
+
+import React, { useMemo } from 'react'
+import { ArrowDownUp } from 'lucide-react'
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
@@ -8,20 +11,28 @@ interface SortDropdownProps {
   onSortChange: (sort: string) => void
 }
 
-export const SortDropdown = ({ currentSort, onSortChange }: SortDropdownProps) => {
-  const sortOptions = [
+export const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }) => {
+  const sortOptions = useMemo(() => [
     { label: 'Más relevantes', value: '' },
     { label: 'Precio: Más bajo primero', value: 'price-asc' },
     { label: 'Precio: Más alto primero', value: 'price-desc' },
-  ]
+  ], [])
+
+  const currentSortLabel = useMemo(() =>
+    sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por',
+    [currentSort, sortOptions])
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none" aria-label='Ordenar por'>
+        <Button
+          variant="ghost"
+          className="flex items-center md:space-x-2 border-none outline-none shadow-none text-primary text-xs md:text-sm hover:text-primary hover:outline-none focus:outline-none"
+          aria-label='Ordenar por'
+        >
           <ArrowDownUp />
           <span className='hidden md:inline'>
-            {sortOptions.find((option) => option.value === currentSort)?.label || 'Ordenar por'}
+            {currentSortLabel}
           </span>
         </Button>
       </DropdownMenuTrigger>
@@ -39,3 +50,4 @@ export const SortDropdown = ({ currentSort, onSortChange }: SortDropdownProps) =
     </DropdownMenu>
   )
 }
+
