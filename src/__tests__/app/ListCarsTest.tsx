@@ -83,12 +83,43 @@ describe('ListCars Component', () => {
       />
     )
 
-    expect(screen.getByText('100 carros encontrados')).toBeInTheDocument()
     expect(screen.getByText('CHEVROLET ONIX')).toBeInTheDocument()
 
     fireEvent.click(screen.getByText('2'))
 
     expect(mockRouterPush).toHaveBeenCalledWith('?page=2')
+  })
+
+  it('should render number of results text', () => {
+    const mockCars = [
+      {
+        "id": 1,
+        "city": "São Paulo",
+        "year": 2024,
+        "brand": "CHEVROLET",
+        "model": "ONIX",
+        "version": "1.0 LT MANUAL",
+        "price": 85000,
+        "mileage": 5000
+      }
+    ]
+
+    render(
+      <ListCars
+        cars={mockCars}
+        loading={false}
+        totalPages={5}
+        totalResults={100}
+        currentPage={1}
+        gridMode={true}
+        setGridMode={jest.fn()}
+        showSortOption={true}
+        toggleFavorite={jest.fn()}
+        favorites={[]}
+      />
+    )
+
+    expect(screen.getByText('100 carros encontrados')).toBeInTheDocument()
   })
 })
 
